@@ -33,9 +33,6 @@ Book Finds adalah modul dimana pengguna dapat melihat semua buku yang tersedia p
   * Deskripsi buku
   * Review button
   * Add to Cart button
-* Form:
-  * Pengguna bisa request untuk menambahkan buku yang belum ada di katalog (pengguna bukan penulis buku tersebut).
-* Filter: Buku berdasarkan genre, published year, dan rating.
 
 **3. Book Shop**
 * Developer: _Roger Moreno_
@@ -46,8 +43,6 @@ Book Shop adalah modul dimana pengguna dapat membeli buku dari katalog yang ada 
   * Banyak pembelian
   * Metode Pengiriman
   * List Order
-* Form: Checklist buku yang ingin dicheckout.
-* Filter: Buku berdasarkan 
 
 **4. Book Talk**
 * Developer: _Fathi Qushoyyi Ahimsa_
@@ -57,10 +52,6 @@ Book Talk adalah modul dimana pengguna dapat memberikan ulasan terkait dengan bu
   * Menambahkan ulasan buku (dalam 1 form)
   * Memberikan rating buku (dalam 1 form)
   * Melihat ulasan setiap buku
-* Form: Post Ulasan (Deskripsi Ulasan, Rating, dan Buku yang diulas)
-* Filter:
-  * Filtering berdasarkan Model Buku
-  * Hanya bisa melihat ulasan dia
 
 **5. Book Club**
 * Developer: _Michelle Elizabeth Amanda Hutasoit_
@@ -73,11 +64,6 @@ Book Club adalah modul dimana pengguna dapat membentuk komunitasnya sendiri atau
   * Keluar dari komunitas
   * Memberikan rekomendasi buku
   * Mengirimkan pendapat dalam format forum
-* Form:
-  * Membuat komunitas
-  * Memberikan rekomendasi buku
-  * Mengunggah pendapat
-* Filter: 
 
 **6. My Library**
 * Developer: _Nadya Aysha_
@@ -88,8 +74,6 @@ My Library adalah modul dimana pengguna dapat membuat virtual library di LiteraT
   * Menampilkan list buku yang telah dibeli
   * Memorisasi quotes-quotes buku pilihan pengguna
   * Tracking progres membaca buku-buku pengguna
-* Form: Post quotes dan reading tracker buku pengguna
-* Filter: Filter reading tracker berdasarkan progress bar dan waktu rilis
 
 **7. Profile**
 * Developer: _Fathi Qushoyyi Ahimsa_
