@@ -116,4 +116,4 @@ Profile adalah modul dimana pengguna dapat melihat informasi akunnya seperti fot
 * Mengunjungi dan melakukan aksi pada Profile page
 
 # Dataset
-[https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata](#https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata)
+[https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata](https://www.kaggle.com/datasets/dylanjcastillo/7k-books-with-metadata)
