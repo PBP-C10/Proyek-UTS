@@ -24,7 +24,7 @@ Sign In & Sign Up adalah modul dimana pengguna dapat melakukan registrasi akun L
   * Sign-In dengan akun yang telah dibuat
   * Log-Out dari website
 
-**Book Finds**
+**2. Book Finds**
 * Developer: _Matthew Hotmaraja Johan Turnip_
 * Description:
 Book Finds adalah modul dimana pengguna dapat melihat semua buku yang tersedia pada website. Selain itu, pengguna dapat membeli dan melihat review dari masing-masing buku.
@@ -37,7 +37,7 @@ Book Finds adalah modul dimana pengguna dapat melihat semua buku yang tersedia p
   * Pengguna bisa request untuk menambahkan buku yang belum ada di katalog (pengguna bukan penulis buku tersebut).
 * Filter: Buku berdasarkan genre, published year, dan rating.
 
-**Book Shop**
+**3. Book Shop**
 * Developer: _Roger Moreno_
 * Description:
 Book Shop adalah modul dimana pengguna dapat membeli buku dari katalog yang ada dengan menerima tiap input data dan terdapat list barang yang sudah kita order.
@@ -49,7 +49,7 @@ Book Shop adalah modul dimana pengguna dapat membeli buku dari katalog yang ada 
 * Form: Checklist buku yang ingin dicheckout.
 * Filter: Buku berdasarkan 
 
-**Book Talk**
+**4. Book Talk**
 * Developer: _Fathi Qushoyyi Ahimsa_
 * Description:
 Book Talk adalah modul dimana pengguna dapat memberikan ulasan terkait dengan buku. Ulasan yang diberikan memuat dua hal, rating dalam skala 1–5 dan komentar ulasan dari buku tersebut. Pengguna dapat melihat ulasan yang diberikan oleh pengguna lain. 
@@ -62,7 +62,7 @@ Book Talk adalah modul dimana pengguna dapat memberikan ulasan terkait dengan bu
   * Filtering berdasarkan Model Buku
   * Hanya bisa melihat ulasan dia
 
-**Book Club**
+**5. Book Club**
 * Developer: _Michelle Elizabeth Amanda Hutasoit_
 * Description:
 Book Club adalah modul dimana pengguna dapat membentuk komunitasnya sendiri atau bergabung dengan komunitas yang sudah ada. Pada modul ini, pengguna dapat memberikan rekomendasi buku dan melihat rekomendasi buku yang diberikan oleh anggota komunitas lainnya. Anggota komunitas juga dapat memberikan pendapat/berkomunikasi dalam format forum. 
@@ -79,7 +79,7 @@ Book Club adalah modul dimana pengguna dapat membentuk komunitasnya sendiri atau
   * Mengunggah pendapat
 * Filter: 
 
-**My Library**
+**6. My Library**
 * Developer: _Nadya Aysha_
 * Description:
 My Library adalah modul dimana pengguna dapat membuat virtual library di LiteraTour dengan mengoleksi berbagai macam buku dari katalog kami. Modul ini menawarkan fitur-fitur yang akan menyimpan riwayat buku pengguna yang telah disimpan dan beli.
@@ -91,7 +91,7 @@ My Library adalah modul dimana pengguna dapat membuat virtual library di LiteraT
 * Form: Post quotes dan reading tracker buku pengguna
 * Filter: Filter reading tracker berdasarkan progress bar dan waktu rilis
 
-**Profile**
+**7. Profile**
 * Developer: _Fathi Qushoyyi Ahimsa_
 * Description:
 Profile adalah modul dimana pengguna dapat melihat informasi akunnya seperti foto profil, nama pengguna, nama akun (username), dan email pengguna. Pengguna juga dapat mengubah informasi akun seperti foto profil, nama pemilik akun, nama akun (username), dan email.
