@@ -1,12 +1,8 @@
-import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.contrib.auth.forms import UserCreationForm
 from bookclub.models import Club, Bubble
-from bookclub.forms import ClubForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages 
+from bookclub.forms import ClubForm, BubbleForm, BookRecForm
 from django.urls import reverse
 
 def show_main(request):
@@ -17,37 +13,6 @@ def show_main(request):
     }
 
     return render(request, "main.html", context)
-
-def register(request):
-    form = UserCreationForm()
-
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your account has been successfully created!')
-            return redirect('book-club:login')
-    context = {'form':form}
-    return render(request, 'register.html', context)
-
-def login_user(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            response = HttpResponseRedirect(reverse("book-club:show_main")) 
-            response.set_cookie('last_login', str(datetime.datetime.now()))
-            return response
-        else:
-            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
-    context = {}
-    return render(request, 'login.html', context)
-
-def logout_user(request):
-    logout(request)
-    return redirect('book-club:login')
 
 @login_required(login_url='/login')
 def create_club(request):
@@ -88,6 +53,7 @@ def leave_club(request, club_id):
 
     return redirect('book-club:show_main')
 
+@login_required(login_url='/login')
 def show_club(request, club_id):
     club = get_object_or_404(Club, id=club_id)
     books = club.recommended_books
@@ -100,3 +66,29 @@ def show_club(request, club_id):
     }
 
     return render(request, "show_club.html", context)
+
+@login_required(login_url='/login')
+def post_bubble(request, club_id):
+    club = get_object_or_404(Club, id=club_id)
+    form = BubbleForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save(user=request.user, club=club)
+
+        return HttpResponseRedirect(reverse('book-club:show_main'))
+
+    context = {'form': form}
+    return render(request, "post_bubble.html", context)
+
+@login_required(login_url='/login')
+def add_rec_book(request, club_id):
+    club = get_object_or_404(Club, id=club_id)
+    form = BookRecForm(request.POST or None, instance=club)
+
+    if form.is_valid() and request.method == 'POST':
+        form.save(instance=club)
+
+        return HttpResponseRedirect(reverse('book-club:show_club', args=[club_id]))
+
+    context = {'form': form}
+    return render(request, "add_rec_book.html", context)

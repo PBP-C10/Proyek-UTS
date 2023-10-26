@@ -7,20 +7,47 @@
 <p>Created by: {{ club.owner }}</p>
 <p>Members: {{ club.members.count }}</p>
 
+<div style="margin-left: 5px; margin-right: 5px;" class="row">
+    {% for book in books.all %}
+        <div class="col-2 col-sm-2 col-md-2 col-lg-1 col-xl-1 mb-2">
+            <div class="card border-primary" style="max-width: 120px; width: auto; font-size: small;">
+                <img src="{{ book.thumbnail }}" class="card-img-top" alt="{{ book.title }}">
+                <div class="card-body">
+                    <p style="font-weight: bold;" class="card-title">{{ book.title }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
 <br>
 
-{% for book in books.all %}
-    <div class="bubble-card">
-        <div class="book">{{ book.title }}</div>
-    </div>
-{% endfor %}
+<form method="post" action="{% url 'book-club:add_rec_book' club.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Add Book Recommendation</button>
+</form>
 
-{% for bubble in bubbles %}
-    <div class="bubble-card">
-        <div class="user-info">{{ bubble.user.username }}</div>
-        <div class="bubble-content">{{ bubble.content }}</div>
-        <div class="small">Posted on {{ bubble.timestamp }}</div>
+<br>
+
+<form method="post" action="{% url 'book-club:post_bubble' club.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Add Bubble</button>
+</form>
+
+<br>
+
+<div class="card-deck"> {# Add Bootstrap card-deck class #}
+    {% for bubble in bubbles %}
+    <div class="card border-primary mb-3"> {# Add Bootstrap card and border class #}
+        <div class="card-body">
+            <p style="font-weight: bold;" class="card-title">{{ bubble.user.username }}</p>
+            <p class="card-text">{{ bubble.content }}</p>
+        </div>
+        <div class="card-footer">
+            <p style="font-size: smaller;">Posted on {{ bubble.timestamp }}</p>
+        </div>
     </div>
-{% endfor %}
+    {% endfor %}
+</div>
 
 {% endblock %}
