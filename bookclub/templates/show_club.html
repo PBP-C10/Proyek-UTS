@@ -1,0 +1,26 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+<h1>{{ club.name }}</h1>
+<p>{{ club.description }}</p>
+<p>Created by: {{ club.owner }}</p>
+<p>Members: {{ club.members.count }}</p>
+
+<br>
+
+{% for book in books.all %}
+    <div class="bubble-card">
+        <div class="book">{{ book.title }}</div>
+    </div>
+{% endfor %}
+
+{% for bubble in bubbles %}
+    <div class="bubble-card">
+        <div class="user-info">{{ bubble.user.username }}</div>
+        <div class="bubble-content">{{ bubble.content }}</div>
+        <div class="small">Posted on {{ bubble.timestamp }}</div>
+    </div>
+{% endfor %}
+
+{% endblock %}

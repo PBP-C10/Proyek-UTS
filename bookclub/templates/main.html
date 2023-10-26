@@ -1,0 +1,62 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<a href="{% url 'book-club:create_club' %}">
+    <button>
+        Add New Club
+    </button>
+</a>
+
+<div class="row">
+    {% for club in clubs %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ club.name }}</h5>
+                    <p class="card-text">{{ club.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Members: {{ club.members.all.count }}</li>
+                    <li class="list-group-item">Books: {{ club.recommended_books.count }}</li>
+                </ul>
+                <div class="card-body">
+                    {% if request.user != club.owner %}
+                        {% if request.user not in club.members.all %}
+                            <form method="post" action="{% url 'book-club:join_club' club.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Join</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'book-club:show_club' club.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Show More</button>
+                            </form>
+
+                            <form method="post" action="{% url 'book-club:leave_club' club.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Leave</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                    {% if request.user == club.owner %}
+                        <form method="post" action="{% url 'book-club:show_club' club.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Show More</button>
+                        </form>
+
+                        <form method="post" action="{% url 'book-club:delete_club' club.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete Club</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+<br />
+
+
+{% endblock content %}

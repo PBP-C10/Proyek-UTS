@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %} 
+
+<body>
+    <div class="container-fluid gradient-div-1">
+        <div class="row-lg-6 row-xl-5">
+            <div class="col-lg-6 col-xl-5 mx-auto">
+                <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+                    <div class="card-body p-4 p-sm-5">
+                        <h1 class="card-title text-center mb-5 fw-light">Register</h1>
+                        <form method="POST">
+                            {% csrf_token %}
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name="username" placeholder="username" class="form-control">
+                                <label style="font-size: medium;" for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" name="password1" placeholder="password" class="form-control">
+                                <label style="font-size: medium;" for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" name="password2" placeholder="passwordConfirmation" class="form-control">
+                                <label style="font-size: medium;" for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+                            </div>
+
+                            <div class="d-grid mb-2">
+                                <input class="btn btn-style-2" type="submit" value="Register">
+                            </div>
+
+                            <hr>
+
+                            <div class="d-block text-center mt-2 small">Already have an account?</div>
+                            <a class="d-block text-center mt-2 small" href="{% url 'book-club:login' %}">Sign in here</a>
+                            
+                        </form>
+
+                        {% if messages %}
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock content %}

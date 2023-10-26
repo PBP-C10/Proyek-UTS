@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+
+<body>
+    <div class="gradient-div-1" style="min-height: 100vh;">
+        <div class="container-fluid">
+            <div class="row-lg-6 row-xl-5">
+                <div class="col-lg-6 col-xl-5 mx-auto">
+                    <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+                        <div class="card-body p-4 p-sm-5">
+                            <h1 class="card-title text-center mb-5 fw-light">Login</h1>
+                            <form method="POST">
+                                {% csrf_token %}
+    
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" name="username" placeholder="username" class="form-control">
+                                    <label style="font-size: medium;" for="uname">Username</label>
+                                </div>
+    
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" name="password" placeholder="Password" class="form-control">
+                                    <label style="font-size: medium;" for="psw">Password</label>
+                                </div>
+    
+                                <div class="d-grid mb-2">
+                                    <input class="btn btn-style-2" type="submit" value="Login">
+                                </div>
+    
+                                <hr>
+
+                                <div class="d-block text-center mt-2 small">Don't have an account yet?</div>
+                                <a class="d-block text-center mt-2 small" href="{% url 'book-club:register' %}">Register now</a>
+                            </form>
+
+                            {% if messages %}
+                                <ul>
+                                    {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock content %}
