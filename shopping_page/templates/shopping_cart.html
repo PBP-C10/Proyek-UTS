@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
 
-<h1>Shopping Cart Page</h1>
+{% block content %}
+    <h1>Shopping Cart Page</h1>
 
-<h5>Name: </h5>
-<p>{{ name }}<p>
-
+    <div class="cart-items">
+        {% if book_data %}
+            <ul>
+                {% for book_info in book_data %}
+                    <li class="cart-item">
+                        <div class="item-image">
+                            <img src="{{ book_info.thumbnail }}" alt="{{ book_info.title }}">
+                        </div>
+                        <div class="item-details">
+                            <h2>{{ book_info.title }}</h2>
+                            <p>Price: ${{ book_info.price }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Your shopping cart is empty.</p>
+        {% endif %}
+    </div>
+{% endblock %}

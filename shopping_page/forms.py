@@ -1,7 +1,8 @@
-from django.forms import ModelForm
-from shopping_page.models import Book
+from django import forms
+from shopping_page.models import Order
 
-class PersonForm(ModelForm):
+
+class OrderForm(forms.ModelForm):
     class Meta:
-        model = Book
-        fields = ["name","email","total_price",]
+        model = Order
+        fields = ['email','payment_method']
