@@ -1,0 +1,81 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+<div style="margin-top: 5px; margin-bottom: 5px;">
+    <div class="row">
+        <div style="display: flex; align-items: center;">
+            <h1 style="margin-right: 10px;">{{ club.name }}</h1>
+            <a href="{% url 'book-club:show_main' %}">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+    <h6>{{ club.description }}</h6>
+    <p style="font-size: small;">Created by {{ club.owner }}</p>
+    <p style="font-size: small;">Members: {{ club.members.count }}</p>
+</div>
+<hr>
+
+<h4>Book Recommended By Members</h4>
+<div class="row">
+    <div id="bubble_card">
+</div>
+
+<br>
+
+<form method="post" action="{% url 'book-club:add_rec_book' club.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Add Book Recommendation</button>
+</form>
+
+<br>
+
+<form method="post" action="{% url 'book-club:post_bubble' club.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Post Your Thoughts</button>
+</form>
+
+<br>
+
+<div class="card-deck"> {# Add Bootstrap card-deck class #}
+    {% for bubble in bubbles %}
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+            <p style="font-weight: bold; margin-top: 10px;" class="card-title">{{ bubble.user.username }}</p>
+            <p style="font-size: xx-small;">Posted on {{ bubble.timestamp }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ bubble.content }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>    
+    async function getBubbles(clubId) {
+        return fetch("{% url 'book-club:get_bubble_json' 0 %}").replace("0", clubId).then((res) => res.json())
+    }
+
+    async function loadBubbles() {
+        let cardHtml = ''
+        document.getElementById("bubble_card").innerHTML = cardHtml
+        const bubbles = await getBubbles();
+
+        for (const bubble of bubbles) {
+            cardHtml += `
+            <div class="card border-primary mb-3">
+                <div class="card-header">
+                    <p style="font-weight: bold; margin-top: 10px;" class="card-title">${bubble.user.username}</p>
+                    <p style="font-size: xx-small;">Posted on ${bubble.fields.timestamp}</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">${bubble.fields.content}</p>
+                </div>
+            </div>
+            `;
+        }
+    }
+</script>
+
+{% endblock %}
