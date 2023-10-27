@@ -19,6 +19,7 @@ def get_book_json(request):
     books = Book.objects.all()
     return HttpResponse(serializers.serialize('json', books))
 
+@login_required(login_url='/login')
 def show_main(request):
     clubs = Club.objects.all()
 

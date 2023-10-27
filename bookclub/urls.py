@@ -4,15 +4,11 @@ from bookclub.views import get_club_json, get_bubble_json, get_book_json
 from bookclub.views import create_club_ajax
 from bookclub.views import post_bubble, add_rec_book
 from bookclub.views import is_owner, is_member
-from RegLogInOut.views import register, login_user, logout_user
 
 app_name = 'book-club'
 
 urlpatterns = [
-    path('register/', register, name='register'),
-    path('login/', login_user, name='login'),
-    path('logout/', logout_user, name='logout'),
-    path('book-club', show_main, name='show_main'),
+    path('', show_main, name='show_main'),
     path('create-club', create_club, name='create_club'),
     path('delete-club/<int:club_id>/', delete_club, name='delete_club'),
     path('join-club/<int:club_id>/', join_club, name='join_club'),
