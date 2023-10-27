@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('RegLogInOut.urls')),
     path('', include('bookfinds.urls')),
+    path('book-club', include('bookclub.urls')),
 ]
