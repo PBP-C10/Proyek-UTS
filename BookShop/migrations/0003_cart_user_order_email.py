@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('shopping_page', '0002_cart_order_delete_book_delete_person'),
+        ('BookShop', '0002_cart_order_delete_book_delete_person'),
     ]
 
     operations = [

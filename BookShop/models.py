@@ -12,7 +12,7 @@ class Order(models.Model):
     PAYMENT_METHOD_CHOICES = (
     (1, 'Transfer Bank'),
     (2, 'Gopay'),
-    (3, 'OvO'),
+    (3, 'OVO'),
     )
     payment_method = models.IntegerField(choices=PAYMENT_METHOD_CHOICES)
     order_date = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Shopping Cart Page</h1>
+
+    <form method="post" action="{% url 'BookShop:confirm_order' %}">
+        {% csrf_token %}
+        
+        <div class="container-fluid d-flex">
+            <div class="m-1 container w-25">
+                <!-- Menampilkan Total Harga di Sini -->
+                <h4>Total Price</h4>
+                <p>Total Price: ${{ total_price }}</p>
+                <button type="submit" class="btn btn-primary">Create Order</button>
+            </div>
+
+            <div class="container-fluid">
+                <div id="book_cards" class="my-3">
+                    <!-- Daftar buku akan ditampilkan di sini -->
+                    {% if book_data %}
+                        <ul class="list-group">
+                            {% for book_info in book_data %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="item-details">
+                                        <div class="d-flex align-items-center">
+                                            <div class="item-image mr-2">
+                                                <img src="{{ book_info.thumbnail }}" alt="{{ book_info.title }}">
+                                            </div>
+                                            <div>
+                                                <h2>{{ book_info.title }}</h2>
+                                                <p>Price: ${{ book_info.price }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="selected_books" value="{{ book_info.id }}">
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Your shopping cart is empty.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

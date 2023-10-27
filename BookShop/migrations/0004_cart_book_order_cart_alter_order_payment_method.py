@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('bookfinds', '0006_remove_book_user'),
-        ('shopping_page', '0003_cart_user_order_email'),
+        ('BookShop', '0003_cart_user_order_email'),
     ]
 
     operations = [
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='order',
             name='cart',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='shopping_page.cart'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='BookShop.cart'),
             preserve_default=False,
         ),
         migrations.AlterField(
