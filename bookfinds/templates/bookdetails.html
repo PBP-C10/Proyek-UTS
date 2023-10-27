@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid d-flexjustify-content-center" style="margin-top:90px">
+    <div class="container d-flex bg-light p-5 mb-5">
+        <div class="w-25 d-flex justify-content-center mb-5 mx-2">
+            <img src='{{ book.thumbnail }}' class="img-thumbnail" loading="lazy" style="height: 500px;">
+        </div>
+
+        <div class="w-75 mx-2">
+            <div class="container">
+                <h1>{{ book.title }}</h1>
+                <h5 class="text-muted">{{ book.subtitle }}</h5>
+                <h6><i class="bi bi-star-fill"></i> {{ book.average_rating }} | {{ book.ratings_count }} ratings</h6>
+                <br>
+                <h1>Rp{{ price }}</h4>
+            </div>
+
+            <br>
+
+            <div class="container d-grid gap-2">
+                <a class="btn btn-primary" href="#" role="button">Add to Cart</a>
+                <a class="btn btn-primary" href="#" role="button">Add to Wishlist</a>
+            </div>
+
+            <br>
+
+            <div class="container">
+                <h4>Description</h4>
+                <p> {{ book.description }}</p>
+            </div>
+
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <h4>Details</h4>
+                </div>
+                <div class="row">
+                    <div class="col lh-2">
+                        <p >
+                            <a class="text-decoration-none text-muted">Author</a>
+                            <br>
+                            {{ book.author }}
+                        </p>
+                    </div>
+                    <div class="col lh-2">
+                        <p >
+                            <a class="text-decoration-none text-muted">Category</a>
+                            <br>
+                            {{ book.category }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col lh-2">
+                        <p >
+                            <a class="text-decoration-none text-muted">Published Year</a>
+                            <br>
+                            {{ book.published_year }}
+                        </p>
+                    </div>
+                    <div class="col lh-2">
+                        <p >
+                            <a class="text-decoration-none text-muted">ISBN</a>
+                            <br>
+                            {{ book.isbn }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col lh-2">
+                        <p >
+                            <a class="text-decoration-none text-muted">Average Rating</a>
+                            <br>
+                            {{ book.average_rating}} ({{ book.ratings_count }} ratings)
+                        </p>
+                    </div>
+                    <div class="col lh-2">
+                        <p >
+                            <a class="text-decoration-none text-muted">Page Count</a>
+                            <br>
+                            {{ book.num_pages }}
+                        </p>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        </div>
+</div>
+
+{% endblock content %}

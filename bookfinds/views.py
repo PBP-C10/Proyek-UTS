@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from bookfinds.models import Book
+from bookfinds.models import Book, BookRequest
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -11,6 +11,7 @@ def show_main(request):
 
 def get_books(request):
     books = Book.objects.all()
+
     categories = request.GET.get('category')
     if categories:
         categories = categories.split(",")
@@ -18,12 +19,14 @@ def get_books(request):
         for category in categories:
             query |= Q(category=category)
         books = books.filter(query)
+
     filter = request.GET.get('filter')
     if filter:
         books = books.filter(title__icontains=filter) | books.filter(subtitle__icontains=filter) | books.filter(author__icontains=filter)
 
     min_price = request.GET.get('minPrice')
     max_price = request.GET.get('maxPrice')
+
     if not min_price:
         min_price = 0
 
@@ -37,6 +40,8 @@ def get_books(request):
         books = books.filter(average_rating__range=[min_rating,5])
 
     page = request.GET.get('page')
+    if not page:
+        page = 1
     paginator = Paginator(books, 30)
     booksInPage = paginator.get_page(page)
 
@@ -60,3 +65,23 @@ def get_books(request):
         'books': serializers.serialize('json', booksInPage),
     }
     return JsonResponse(data)
+
+def show_book_details(request, id):
+    book = Book.objects.get(pk=id)
+    price = str(book.price // 1000) + "." + str(book.price % 1000) 
+    context = {
+        'book': book,
+        'price': price,
+    }
+    return render(request, 'bookdetails.html', context)
+
+def request_book(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        category = request.POST.get('category')
+        book_request = BookRequest(title=title, author=author, category=category)
+        book_request.save()
+        return HttpResponse(b"CREATED", status=201)
+    
+    return HttpResponseNotFound()

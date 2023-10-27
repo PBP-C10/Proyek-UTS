@@ -13,3 +13,8 @@ class Book(models.Model):
     num_pages = models.IntegerField()
     ratings_count = models.IntegerField()
     price = models.IntegerField()
+
+class BookRequest(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
