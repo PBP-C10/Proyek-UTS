@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'BookShop',
-    'RegLogInOut',
+    'signInSignUp',
     'bookfinds',
-    'bookclub'
+    'bookclub',
+    'myLibrary',
+    'BookShop'
 ]
 
 MIDDLEWARE = [
