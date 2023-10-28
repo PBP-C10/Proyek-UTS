@@ -23,4 +23,5 @@ urlpatterns = [
     path('BookShop/', include('BookShop.urls')),
     path('', include('RegLogInOut.urls')),
     path('', include('bookfinds.urls')),
+    path('book-club', include('bookclub.urls')),
 ]
