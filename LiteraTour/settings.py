@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'signInSignUp',
     'bookfinds',
-    'bookclub'
+    'bookclub',
     'myLibrary',
 ]
 
