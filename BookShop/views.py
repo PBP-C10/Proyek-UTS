@@ -22,7 +22,8 @@ def shopping_main(request):
     total_price = 0
 
     if cart:
-        books = cart.book.all()
+        # Ganti cart.books.all() menjadi cart.cart_books.all() jika diperlukan
+        books = cart.cart_books.all()
         for book in books:
             book_info = {
                 'title': book.title,
