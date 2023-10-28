@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}  
+
+<h1>My Library Page</h1>
+<h1>{{ name }}</h1>
+
+<table>
+    <tr>
+        <th>Book Title</th>
+        <th>Page</th>
+        <th>Quote</th>
+    </tr>
+
+        <tr>
+            <td>{{my_Book}}</td>
+            <td>{{progress}}</td>
+            <td>{{quote}}</td>
+        </tr>
+</table>
+
+<br />
+
+<a href="{% url 'MyLib:BookTracker' %}">
+    <button>
+        Add New Book
+    </button>
+</a>
+
+{% endblock content %}

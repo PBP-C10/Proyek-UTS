@@ -1,35 +1,28 @@
 from django.contrib.auth.decorators import login_required
-from RegLogInOut.models import User
-import datetime
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages  
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 
 @login_required(login_url='/login')
-def show_RegLogInOut(request):
-    # user = User.objects.filter(user=request.user)
+def show_signInSignUp(request):
     context = {
-        'name': request.user.username,
+        'name': '',
     }
-    return render(request, "RegLogInOut.html", context)
+    return render(request, "signInSignUp.html", context)
 
 def register(request):
-    if request.method == 'POST':
+    form = UserCreationForm()
+    if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('RegLogInOut:login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+            messages.success(request, 'Your account has been successfully created!')
+            return redirect('signInSignUp:login')
+    context = {'form':form}
+    return render(request, 'register.html', context)
 
 def login_user(request):
     if request.method == 'POST':
@@ -38,9 +31,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            response = HttpResponseRedirect(reverse("RegLogInOut:show_RegLogInOut")) 
-            response.set_cookie('last_login', str(datetime.datetime.now()))
-            return response
+            return redirect('signInSignUp:show_signInSignUp')
         else:
             messages.info(request, 'Sorry, incorrect username or password. Please try again.')
     context = {}
@@ -48,6 +39,4 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('RegLogInOut:login'))
-    response.delete_cookie('last_login')
-    return response
+    return redirect('signInSignUp:login')

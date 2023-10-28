@@ -6,18 +6,23 @@
 
 {% block content %}  
 
-<div class="container-fluid p-2 d-flex flex-column justify-content-center align-items-center text-white">
-
-    <div class = "register container m-5 p-2 d-flex flex-column justify-content-center align-items-center shadow rounded border border-dark" style="background-color:#252525;">
-        
+<div>
+    <div>
         <h1>Register</h1>  
-
-            <form method="POST" class="mx-5">  
+            <form method="POST">  
                 {% csrf_token %}    
                 <div class="form-group">
                     <label for="id_username">Username*</label>
                     <input type="text" name="username" class="form-control" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username">
                     <p>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
+                </div>
+                <div class="form-group">
+                    <label for="id_first_name">First Name*</label>
+                    <input type="text" name="first_name" class="form-control" maxlength="150" autocapitalize="none" autocomplete="first_name" autofocus required id="id_first_name">
+                </div>
+                <div class="form-group">
+                    <label for="id_last_name">Last Name*</label>
+                    <input type="text" name="last_name" class="form-control" maxlength="150" autocapitalize="none" autocomplete="last_name" autofocus required id="id_last_name">
                 </div>
                 <div class="form-group">
                     <label for="id_password1">Password*</label>
@@ -42,16 +47,13 @@
                     {% endfor %}    
                 {% endif %}
                 <br>
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn text-white" style="background-color: #0065a9;">Register</button>
+                <div>
+                    <button type="submit">Register</button>
                 </div>
             </form>
-        
         <br>
-        <p class="text-center">Already have an account? <br> <a href="{% url 'RegLogInOut:login' %}">Login</a></p>
-
+        <p>Already have an account? <br> <a href="{% url 'signInSignUp:login' %}">Login</a></p>
     </div>  
-
 </div>
 
 {% endblock content %}
