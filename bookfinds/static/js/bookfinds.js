@@ -102,11 +102,6 @@ let minRating = 0
 
 refreshPage(category, filter, page, minPrice, maxPrice, minRating)
 
-function disableEnterSubmit(){
-
-}
-
-
 function goToPage(newPage){
     page = newPage
     refreshPage(category, filter, page, minPrice, maxPrice, minRating)
@@ -147,7 +142,6 @@ function filterRating(radio){
         radio.checked = false
         minRating = 0
     }
-    page = "1"
     refreshPage(category,filter,page,minPrice,maxPrice, minRating)
 }
 
@@ -156,12 +150,19 @@ function getDetail(book){
 }
 
 function requestBook() {
-    fetch(window.location + "request-book/", {
+    let url = new URL("request-book/", window.location)
+    fetch(url, {
         method: "POST",
         body: new FormData(document.querySelector('#request-form'))
+    }).then((res) => {
+        console.log(res)
+        if (res.status == 201){
+            document.getElementById("request-form").reset()
+            const requestModal = document.querySelector('#bookRequestModal')
+            const modal = bootstrap.Modal.getInstance(requestModal)
+            modal.hide()
+        }
     })
-    document.getElementById("request-form").reset()
-    return false
 }
 
 let reqButton = document.getElementById("reqButtonDiv")
@@ -178,5 +179,4 @@ reqButton.onclick = function() {
         clearTimeout(timer)
     }
 }
-
 

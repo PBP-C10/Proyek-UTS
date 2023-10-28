@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from bookfinds.models import Book, BookRequest
+from bookfinds.models import Book
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.db.models import Q
+from bookfinds.forms import BookRequestForm
 
 # Create your views here.
 def show_main(request):
@@ -76,12 +77,11 @@ def show_book_details(request, id):
     return render(request, 'bookdetails.html', context)
 
 def request_book(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        author = request.POST.get('author')
-        category = request.POST.get('category')
-        book_request = BookRequest(title=title, author=author, category=category)
-        book_request.save()
-        return HttpResponse(b"CREATED", status=201)
-    
-    return HttpResponseNotFound()
+    if request.user.is_authenticated:
+        form = BookRequestForm(request.POST or None)
+        if form.is_valid() and request.method == "POST":
+            form.save()
+            return HttpResponse(b"CREATED", status=201)
+        return HttpResponseBadRequest()
+    else:
+        return HttpResponse('Unauthorized', status=401)

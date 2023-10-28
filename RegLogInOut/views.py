@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from RegLogInOut.models import User
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -12,11 +11,9 @@ from django.contrib.auth import logout
 
 @login_required(login_url='/login')
 def show_RegLogInOut(request):
-    userLT = User.objects.filter(user=request.user)
     context = {
         'name': request.user.username,
     }
-
     return render(request, "RegLogInOut.html", context)
 
 def register(request):
