@@ -71,9 +71,9 @@ def create_review_ajax (request):
 def post_review(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     form = ReviewForm(request.POST or None)
-
     if form.is_valid() and request.method == "POST":
-        form.save(user=request.user, book=book)
+        
+        form.save(reviewer_user=request.user, book=book)
 
         return HttpResponse("CREATED", 201)
 

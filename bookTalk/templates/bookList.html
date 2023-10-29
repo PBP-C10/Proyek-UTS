@@ -34,17 +34,14 @@
                     <h1 class="modal-title fs-5" style="color: black;" id="createReviewModalLabel">Create New Review</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-    
-                <div class="modal-body">
-                    <form id="form" onsubmit="return false">                            
-                        {% csrf_token %}
 
-                        
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false">
+                        {% csrf_token %}
                         <div class="mb-3" style="font-size: medium;">
-                            <label for="review_text" class="col-form-label">Review Text</label>
-                            <textarea class="form-control" id="review_text" name="review_text" required></textarea>
+                            <textarea required placeholder="Type your thoughts ..." class="form-control" id="review_text" name="review_text"></textarea>
                         </div>
-                        
+
                         <div class="mb-3" style="font-size: medium;">
                             <label for="rating" class="col-form-label">Rating</label>
                             <select id="rating" class="form-control" name="rating" required>
@@ -55,10 +52,21 @@
                                 <option value="5">Bintang 5</option>
                             </select>
                         </div>
+
+                        <div class="mb-3" style="font-size: medium;">
+                            <input required type="hidden" class="form-control" id="reviewer_user" name="reviewer_user" value=""></input>
+                        </div>
+
+                        <div class="mb-3" style="font-size: medium;">
+                            <input required type="hidden" class="form-control" id="book" name="book" value=""></input>
+                        </div>
                         
-    
+                        <div class="mb-3" style="font-size: medium;">
+                            <input required type="hidden" class="form-control" id="username" name="username" value=""></input>
+                        </div>
+
                         <div class="modal-footer" style="justify-content: center;">
-                            <button id="create_review_button" class="btn btn-outline-success" data-bs-dismiss="modal">Create</button>
+                            <button id="create_review_button" type="submit" value="Submit" class="btn btn-outline-success" data-bs-dismiss="modal">Post</button>
                         </div>
                     </form>
                 </div>
@@ -73,7 +81,7 @@
     </div> -->
 
     <div class="text-center mt-3">
-        <button id="createReviewButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#createReviewModal">Post Your Review</button>
+        <button id="createReviewModalButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#createReviewModal">Create a Review</button>
     </div>
 </div>
 

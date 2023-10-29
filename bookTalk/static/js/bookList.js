@@ -28,7 +28,7 @@ async function loadReviews(book_id) {
 
 function post_review(book_id) {
     // const username = document.getElementById("navbarDropdown").innerHTML;
-    // document.getElementById("username").value = username;
+    document.getElementById("username").value = "tes";
 
     const postReviewURL = "post-review/";
     fetch(postReviewURL, {

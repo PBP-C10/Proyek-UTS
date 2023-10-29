@@ -10,8 +10,8 @@ urlpatterns = [
     path('create-review-ajax/', create_review_ajax, name='create_review_ajax'),
     path('get-books/', get_books, name='get_books'),
     path('get-book-json/', get_book_json, name='get_book_json'),
-    path('book-talk/book/<int:book_id>/get-review-json/', get_review_json, name='get_review_json'),
+    path('book/<int:book_id>/get-review-json/', get_review_json, name='get_review_json'),
     path('book/<int:book_id>/', book_list, name='book_list'),
-    path('book-talk/book/<int:book_id>/post-review/', post_review, name='post_review')
+    path('book/<int:book_id>/post-review/', post_review, name='post_review')
 
 ]
