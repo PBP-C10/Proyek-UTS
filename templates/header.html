@@ -2,7 +2,7 @@
     <!-- margin 90px after navbar -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-light rounded bg-light">
         <a class="navbar-brand m-2" href="{% url 'bookfinds:show_main' %}">
-            <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" loading="lazy" width="30" height="30" alt=""> LiteraTour
+            <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" loading="lazy" width="30" height="30" alt="">
         </a>
         <button class="navbar-toggler m-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,13 +44,17 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown text-white ms-auto">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{user}}
+                            <i class="bi bi-person-circle"></i> {{user}}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="nav-link m-2 active" aria-current="page" href="#">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="nav-link active bg-danger m-2 text-center rounded text-white" aria-current="page" href="{% url 'signInSignUp:logout' %}">Logout</a></li>
                         </ul>
+                    </li>
+                    {% elif not user.is_authenticated %}
+                    <li class="nav-item dropdown text-white ms-auto">
+                        <a class="nav-link active bg-success m-2 text-center rounded text-white" aria-current="page" href="{% url 'signInSignUp:login' %}">Login</a>
                     </li>
                     {% endif %}
                 </ul>
