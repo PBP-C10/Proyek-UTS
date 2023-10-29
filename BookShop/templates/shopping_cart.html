@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Shopping Cart Page</h1>
+
+ 
+        
+        <div class="container-fluid d-flex">
+            <div class="m-1 container w-25">
+                <!-- Display Total Price Here -->
+                <h4>Total Price</h4>
+                <p>Total Price: ${{ total_price }}</p>
+                <a href="{% url 'BookShop:create_order' %}" class="btn btn-success">Create Order</a>
+            </div>
+
+            <div class="container-fluid">
+                <div id="book_cards" class="my-3">
+                    <!-- List of books will be displayed here -->
+                    {% if book_data %}
+                        <ul class="list-group">
+                            {% for book_info in book_data %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="item-details">
+                                        <div class="d-flex align-items-center">
+                                            <div class="item-image mr-2">
+                                                <img src="{{ book_info.thumbnail }}" alt="{{ book_info.title }}" style="max-width: 100px;">
+                                            </div>
+                                            <div>
+                                                <h2>{{ book_info.title }}</h2>
+                                                <p>Price: ${{ book_info.price }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item-actions">
+                                        <a href="{% url 'BookShop:remove_book' book_info.id %}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Your shopping cart is empty.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

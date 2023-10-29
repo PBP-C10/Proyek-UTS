@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 
 class Book(models.Model):
     isbn = models.CharField(max_length=10)
@@ -15,6 +17,18 @@ class Book(models.Model):
     price = models.IntegerField()
 
 class BookRequest(models.Model):
+
+    class Status(models.TextChoices):
+        REQUESTED = "REQ", _("Requested")
+        ACCEPTED = "ACC", _("Accepted")
+        DENIED = "DEN", _("Denied")
+
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
+    status = models.CharField(
+        max_length = 3,
+        choices= Status.choices,
+        default=Status.REQUESTED,
+    )
+    
