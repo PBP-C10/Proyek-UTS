@@ -2,8 +2,8 @@
 
 {% block content %}
 <body>
-
-    <div style="margin-top: 5px; margin-bottom: 5px;">
+<div style="margin-top: 90px;">
+    <div style="margin: 20px">
         <div class="row">
             <div style="display: flex; align-items: center;">
                 <h1 style="margin-right: 10px;">{{ club.name }}</h1>
@@ -18,7 +18,7 @@
     </div>
     <hr>
 
-    <h4>Book Recommended By Members</h4>
+    <h4 class="text-center">Book Recommended By Members</h4>
     <div class="container py-2 border rounded shadow-sm">
         <div class="d-flex flex-row justify-content-between align-items-center">
             <p class="my-auto">Category</p>
@@ -94,32 +94,44 @@
 
     <br>
 
-    <form method="post" action="{% url 'book-club:add_rec_book' club.id %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary">Add Book Recommendation</button>
-    </form>
-
-    <br>
-
-    <div class="card-deck">
-        <div id="bubble_card">
-        {% for bubble in bubbles %}
-        <div class="card border-primary mb-3">
-            <div class="card-header">
-                <p style="font-weight: bold; margin-top: 10px;" class="card-title">{{ bubble.user.username }}</p>
-                <p style="font-size: xx-small;">Posted on {{ bubble.timestamp }}</p>
-            </div>
-            <div class="card-body">
-                <p class="card-text">{{ bubble.content }}</p>
-            </div>
-        </div>
-        {% endfor %}
+    <div class="text-center mt-3">
+        <button id="addBookButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addRecBookModal">Add Your Recommendation</button>
     </div>
 
+    <br>
+    
+    <div class="card-deck">
+        <div id="bubble_card">
+    </div>
+    
     <div class="text-center mt-3">
         <button id="createBubbleButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#postBubbleModal">Post Your Thoughts</button>
     </div>
-
+    
+    <div class="modal fade" id="addRecBookModal" tabindex="-1" aria-labelledby="addRecBookLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="color: black;">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" style="color: black;" id="addRecBookLabel">Add Book Recommendation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+    
+                <div class="modal-body">
+                    <form id="recBookForm" onsubmit="return false">                            
+                        {% csrf_token %}
+                        <div class="mb-3" style="font-size: medium;">
+                            {{ book_recommendation_form.recommended_books }}
+                        </div>
+    
+                        <div class="modal-footer" style="justify-content: center;">
+                            <button id="addRecBookButton" type="submit" value="Submit" class="btn btn-outline-success" data-bs-dismiss="modal">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal fade" id="postBubbleModal" tabindex="-1" aria-labelledby="postBubbleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" style="color: black;">
@@ -129,12 +141,16 @@
                 </div>
     
                 <div class="modal-body">
-                    <form id="form" onsubmit="return false">                            
+                    <form id="bubbleForm" onsubmit="return false">                            
                         {% csrf_token %}
                         <div class="mb-3" style="font-size: medium;">
-                            {{ bubble_form.content }}
+                            <textarea required placeholder="Type your thoughts ..." class="form-control" id="content" name="content"></textarea>
                         </div>
-    
+                        
+                        <div class="mb-3" style="font-size: medium;">
+                            <input required type="hidden" class="form-control" id="username" name="username" value=""></input>
+                        </div>
+                        
                         <div class="modal-footer" style="justify-content: center;">
                             <button id="postBubbleButton" type="submit" value="Submit" class="btn btn-outline-success" data-bs-dismiss="modal">Post</button>
                         </div>
@@ -143,7 +159,7 @@
             </div>
         </div>
     </div>
-
+</div>
 </body>
 
 <script>   
@@ -196,21 +212,23 @@
             }
         };
         
-        document.getElementById("book_card").innerHTML = `<div class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">${cardHtml}</div>`;
-        category = [];
+        document.getElementById("book_card").innerHTML = `
+        <div style="margin: 20px; display: flex; flex-wrap: nowrap; overflow-x: auto;">
+            ${cardHtml}
+        </div>`;
+    category = [];
     }
 
     async function loadBubbles(clubId) {
         let cardHtml = ''
         document.getElementById("bubble_card").innerHTML = cardHtml
         const bubbles = await getBubbles(clubId);
-        console.log(bubbles)
 
         for (const bubble of bubbles) {
             cardHtml += `
             <div class="card border-primary mb-3">
                 <div class="card-header">
-                    <p style="font-weight: bold; margin-top: 10px;" class="card-title">${bubble.fields.user.username}</p>
+                    <p style="font-weight: bold; margin-top: 10px;" class="card-title">${bubble.fields.username}</p>
                     <p style="font-size: xx-small;">Posted on ${bubble.fields.timestamp}</p>
                 </div>
                 <div class="card-body">
@@ -220,19 +238,30 @@
             `;
         }
 
-        document.getElementById("bubble_card").innerHTML = `<div class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">${cardHtml}</div>`;
+        document.getElementById("bubble_card").innerHTML = `<div style="margin: 20px" class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">${cardHtml}</div>`;
     }
 
     function postBubble(clubId) {
-        console.log("halo")
+        document.getElementById("username").value = "abc";
+
         const postBubbleURL = "{% url 'book-club:post_bubble' 0 %}".replace("0", clubId);
         fetch(postBubbleURL, {
             method: "POST",
-            body: new FormData(document.querySelector('#form')),
+            body: new FormData(document.querySelector('#bubbleForm')),
         }).then((response) => {
-            console.log("halo2")
             loadBubbles(clubId);
-            document.getElementById("form").reset();
+            document.getElementById("bubbleForm").reset();
+        });
+    }
+    
+    function addRecBook(clubId) {
+        const addRecBookURL = "{% url 'book-club:add_rec_book' 0 %}".replace("0", clubId);
+        fetch(addRecBookURL, {
+            method: "POST",
+            body: new FormData(document.querySelector('#recBookForm')),
+        }).then((response) => {
+            loadRecommendedBooks(clubId, []);
+            document.getElementById("recBookForm").reset();
         });
     }
 
@@ -243,6 +272,7 @@
     loadBubbles(clubId)
 
     document.getElementById("postBubbleButton").onclick = (()=>{postBubble(clubId)})
+    document.getElementById("addRecBookButton").onclick = (()=>{addRecBook(clubId)})
 
 </script>
 
