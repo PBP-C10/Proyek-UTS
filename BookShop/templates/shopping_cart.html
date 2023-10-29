@@ -7,6 +7,16 @@
         
         <div class="container-fluid d-flex">
             <div class="m-1 container w-25">
+                <h4>Price Filter</h4>
+                <div class="form-group">
+                    <label for="minPrice">Min Price:</label>
+                    <input type="number" class="form-control" id="minPrice" placeholder="Min Price">
+                </div>
+                <div class="form-group">
+                    <label for="maxPrice">Max Price:</label>
+                    <input type="number" class="form-control" id="maxPrice" placeholder="Max Price">
+                </div>
+                <button class="btn btn-primary" id="applyFilterButton">Apply Filter</button>
                 <!-- Display Total Price Here -->
                 <h4>Total Price</h4>
                 <p>Total Price: ${{ total_price }}</p>
@@ -44,4 +54,30 @@
             </div>
         </div>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const applyFilterButton = document.getElementById('applyFilterButton');
+            const minPriceInput = document.getElementById('minPrice');
+            const maxPriceInput = document.getElementById('maxPrice');
+    
+            applyFilterButton.addEventListener('click', function() {
+                // Dapatkan nilai dari input harga
+                const minPrice = minPriceInput.value;
+                const maxPrice = maxPriceInput.value;
+    
+                // Kirim permintaan AJAX dengan filter harga
+                fetch("{% url 'BookShop:shopping_main' %}?minPrice=" + minPrice + "&maxPrice=" + maxPrice)
+                    .then(response => response.text())
+                    .then(data => {
+                        // Perbarui halaman dengan hasil filter
+                        document.getElementById('book_cards').innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+        });
+    </script>
+    
 {% endblock %}
