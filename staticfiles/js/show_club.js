@@ -1,12 +1,12 @@
 let category =[];
 
 async function getRecommendedBooks(clubId) {
-    const recommendedBooksURL = "{% url 'book-club:get_recommended_book_json' 0 %}".replace("0", clubId);
+    const recommendedBooksURL = "get-recommended-book-json/";
     return fetch(recommendedBooksURL).then((res) => res.json())
 }
 
 async function getBubbles(clubId) {
-    const bubbleURL = "{% url 'book-club:get_bubble_json' 0 %}".replace("0", clubId);
+    const bubbleURL = "get-bubble-json/";
     return fetch(bubbleURL).then((res) => res.json())
 }
 
@@ -48,7 +48,7 @@ async function loadRecommendedBooks(clubId, category) {
     };
     
     document.getElementById("book_card").innerHTML = `
-    <div style="margin: 20px; display: flex; flex-wrap: nowrap; overflow-x: auto;">
+    <div style="padding: 20px; display: flex; flex-wrap: nowrap; overflow-x: auto;">
         ${cardHtml}
     </div>`;
 category = [];
@@ -61,9 +61,9 @@ async function loadBubbles(clubId) {
 
     for (const bubble of bubbles) {
         cardHtml += `
-        <div class="card border-primary mb-3">
+        <div class="card border-primary mb-3 w-100">
             <div class="card-header">
-                <p style="font-weight: bold; margin-top: 10px;" class="card-title">${bubble.fields.username}</p>
+                <p style="font-weight: bold; padding-top: 10px;" class="card-title">${bubble.fields.username}</p>
                 <p style="font-size: xx-small;">Posted on ${bubble.fields.timestamp}</p>
             </div>
             <div class="card-body">
@@ -73,13 +73,14 @@ async function loadBubbles(clubId) {
         `;
     }
 
-    document.getElementById("bubble_card").innerHTML = `<div style="margin: 20px" class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">${cardHtml}</div>`;
+    document.getElementById("bubble_card").innerHTML = `<div style="padding: 20px" class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">${cardHtml}</div>`;
 }
 
 function postBubble(clubId) {
-    document.getElementById("username").value = "abc";
+    const username = document.getElementById("navbarDropdown").innerHTML;
+    document.getElementById("username").value = username;
 
-    const postBubbleURL = "{% url 'book-club:post_bubble' 0 %}".replace("0", clubId);
+    const postBubbleURL = "post-bubble/";
     fetch(postBubbleURL, {
         method: "POST",
         body: new FormData(document.querySelector('#bubbleForm')),
@@ -90,7 +91,7 @@ function postBubble(clubId) {
 }
 
 function addRecBook(clubId) {
-    const addRecBookURL = "{% url 'book-club:add_rec_book' 0 %}".replace("0", clubId);
+    const addRecBookURL = "add-rec-book/";
     fetch(addRecBookURL, {
         method: "POST",
         body: new FormData(document.querySelector('#recBookForm')),
