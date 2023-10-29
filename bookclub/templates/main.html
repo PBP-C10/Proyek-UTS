@@ -131,7 +131,7 @@
     function createClub() {
         loadBooks()
         
-        fetch("{% url 'book-club:create_club_ajax' %}", {
+        fetch("{% url 'book-club:create_club' %}", {
             method: "POST",
             body: new FormData(document.querySelector('#form'))
         }).then(loadClubs)
