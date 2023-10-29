@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid" style = "margin-top:90px;">
+        <h1>Confirm your Order</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ order_form.as_p }}
+            <p>Total Price: ${{ total_price }}</p>
+
+            <p>Payment can be made via:</p>
+            <ul>
+                <li>Gopay: 093789654322 (Literatour)</li>
+                <li>OVO: 5847590740303 (Literatour)</li>
+                <li>Transfer Bank ABC: 470749069043090 (Literatour)</li>
+            </ul>
+
+            <a href="{% url 'BookShop:submit_order' %}" class="btn btn-primary">Confirm Order</a>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmOrderButton = document.getElementById('confirm-order');
+            const orderForm = document.getElementById('order-form');
+            const csrfToken = '{{ csrf_token }}'; 
+    
+            confirmOrderButton.addEventListener('click', function(event) {
+                event.preventDefault();
+    
+                // Lakukan permintaan AJAX dengan token CSRF
+                fetch("{% url 'BookShop:submit_order' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,  
+                    },
+                    body: new FormData(orderForm),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle respons dari permintaan AJAX
+                    if (data.success) {
+                        alert('Pesanan Anda telah berhasil diajukan. Keranjang belanja kosong.');
+                    } else {
+                        alert('Terjadi kesalahan saat mengajukan pesanan.');
+                    }
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan saat mengajukan pesanan.');
+                    console.error(error);
+                });
+            });
+        });
+    </script>
+    
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <h1>Book Talk</h1>
+    <p>Review and rate your book comprehensively</p>
+</head>
+
+<div class="container-fluid d-flex" style="margin-top:90px">
+    <!-- Filter and Search Section -->
+    <div class="container w-25">
+        <!-- Filter and Search Content (code from your provided template) -->
+        <!-- ... -->
+        <h4>Filter</h4>
+        <div class="container py-2 border rounded shadow-sm">
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <h5 class="my-auto">Category</h5>
+                <button class="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="bi bi-caret-down-fill" ></i>
+                </button>
+            </div>
+            <div class="collapse" id="collapseCategory">
+                <div class="container my-2" id="categoryContainer">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxAdvStories" value="Adventure stories" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Adventure Stories
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxArt" value="Art" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Art
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxComics" value="Comics & Graphic Novels" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Comics & Graphic Novels
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxDetective" value="Detective and mystery stories" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Detective and Mystery Stories
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxDrama" value="Drama" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Drama
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxFantasy" value="Fantasy fiction" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Fantasy Fiction
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxHistory" value="History" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            History
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxJuvenile" value="Juvenile Fiction" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Juvenile Fiction
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxScience" value="Science fiction" onchange=searchBookByCategory(this)>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Science Fiction
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Book List Section -->
+    <div class="container w-75">
+        <!-- Search Bar -->
+        <form class="d-flex rounded border">
+            <input class="form-control" type="text" placeholder="Search Books and Authors" aria-label="Search" id="search" oninput=searchBook()>
+        </form>
+
+        <!-- Book Cards -->
+        <div id="book_cards" class="container my-3 w-100">
+            <!-- Book cards will be dynamically populated here -->
+        </div>
+
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination justify-content-center" id="page">
+                <!-- Pagination items will be dynamically populated here -->
+            </ul>
+        </nav>
+    </div>
+
+    
+
+<link rel="stylesheet" type="text/css" href="/static/css/bookTalk.css"/>
+<script type="text/javascript" src="/static/js/bookTalk.js"></script>
+
+    
+{% endblock content %}
+

@@ -1,17 +1,10 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages  
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
-
-@login_required(login_url='/login')
-def show_signInSignUp(request):
-    context = {
-        'name': '',
-    }
-    return render(request, "signInSignUp.html", context)
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+import datetime
 
 def register(request):
     form = UserCreationForm()
@@ -31,7 +24,12 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('signInSignUp:show_signInSignUp')
+            if 'next' in request.POST:
+                response = HttpResponseRedirect(request.POST['next'])
+            else:
+                response = HttpResponseRedirect(reverse("bookfinds:show_main")) 
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
         else:
             messages.info(request, 'Sorry, incorrect username or password. Please try again.')
     context = {}
@@ -39,4 +37,6 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('signInSignUp:login')
+    response = HttpResponseRedirect(reverse('bookfinds:show_main'))
+    response.delete_cookie('last_login')
+    return response

@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
 from bookclub.models import Club, Book, Bubble
 from bookclub.forms import ClubForm, BubbleForm, BookRecForm
@@ -12,37 +12,33 @@ def get_club_json(request):
     return HttpResponse(serializers.serialize('json', clubs))
 
 def get_bubble_json(request, club_id):
-    bubbles = Bubble.objects.filter(id=club_id)
+    club = get_object_or_404(Club, id=club_id)
+    bubbles = Bubble.objects.filter(club=club)
     return HttpResponse(serializers.serialize('json', bubbles))
 
 def get_book_json(request):
     books = Book.objects.all()
     return HttpResponse(serializers.serialize('json', books))
 
-@login_required(login_url='/login')
+def get_recommended_book_json(request, club_id):
+    club = get_object_or_404(Club, id=club_id)
+    recommended_books = club.recommended_books.all()
+    return HttpResponse(serializers.serialize('json', recommended_books))
+
+@login_required(login_url='/login/?next=book-club/')
 def show_main(request):
     clubs = Club.objects.all()
+    club_form = ClubForm()
 
     context = {
-        'clubs': clubs
+        'clubs': clubs,
+        'club_form': club_form,
     }
 
     return render(request, "main.html", context)
 
-@login_required(login_url='/login')
-def create_club(request):
-    form = ClubForm(request.POST or None)
-
-    if form.is_valid() and request.method == "POST":
-        form.save(user=request.user)
-
-        return HttpResponseRedirect(reverse('book-club:show_main'))
-
-    context = {'form': form}
-    return render(request, "create_club.html", context)
-
 @csrf_exempt
-def create_club_ajax(request):
+def create_club(request):
     if request.method == 'POST':
         user = request.user
         name = request.POST.get("name")
@@ -61,7 +57,7 @@ def create_club_ajax(request):
 
         return HttpResponse(b"CREATED", status=201)   
     
-    return HttpResponseNotFound
+    return HttpResponseNotFound  
 
 @csrf_exempt
 def delete_club(request, club_id):
@@ -118,16 +114,40 @@ def show_club(request, club_id):
     club = get_object_or_404(Club, id=club_id)
     books = club.recommended_books
     bubbles = Bubble.objects.filter(club=club)
+    bubble_form = BubbleForm()
+    book_recommendation_form = BookRecForm()
 
     context = {
         'club' : club,
         'books' : books,
         'bubbles' : bubbles,
+        'bubble_form' : bubble_form,
+        'book_recommendation_form' : book_recommendation_form,
     }
 
     return render(request, "show_club.html", context)
 
-@login_required(login_url='/login')
+@csrf_exempt
+def create_club(request):
+    if request.method == 'POST':
+        user = request.user
+        name = request.POST.get("name")
+        description = request.POST.get("description")
+        recommended_books = request.POST.get("recommended_books")
+
+        new_club = Club(owner=user, name=name, description=description)
+        new_club.save()
+        new_club.members.add(user)
+        new_club.recommended_books.add(recommended_books)
+
+        bubble = request.POST.get("bubble")
+
+        new_bubble = Bubble(user=user, username=user.username, club=new_club, content=bubble)
+        new_bubble.save()
+
+        return HttpResponse(b"CREATED", status=201)   
+    
+@csrf_exempt
 def post_bubble(request, club_id):
     club = get_object_or_404(Club, id=club_id)
     form = BubbleForm(request.POST or None)
@@ -135,12 +155,11 @@ def post_bubble(request, club_id):
     if form.is_valid() and request.method == "POST":
         form.save(user=request.user, club=club)
 
-        return HttpResponseRedirect(reverse('book-club:show_main'))
+        return HttpResponse("CREATED", 201)
 
-    context = {'form': form}
-    return render(request, "post_bubble.html", context)
+    return HttpResponseNotFound
 
-@login_required(login_url='/login')
+@csrf_exempt
 def add_rec_book(request, club_id):
     club = get_object_or_404(Club, id=club_id)
     form = BookRecForm(request.POST or None, instance=club)
@@ -148,7 +167,6 @@ def add_rec_book(request, club_id):
     if form.is_valid() and request.method == 'POST':
         form.save(instance=club)
 
-        return HttpResponseRedirect(reverse('book-club:show_club', args=[club_id]))
+        return HttpResponse("CREATED", 201)
 
-    context = {'form': form}
-    return render(request, "add_rec_book.html", context)
+    return HttpResponseNotFound

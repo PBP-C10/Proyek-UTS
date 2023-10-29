@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'signInSignUp',
     'bookfinds',
     'bookclub',
-    'myLibrary',
+    'bookTalk',
+    'BookShop',
 ]
 
 MIDDLEWARE = [
@@ -131,7 +132,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'bookfinds\static')
+    os.path.join(BASE_DIR, 'bookfinds\static'),
+    os.path.join(BASE_DIR, 'bookclub\static'),
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Default primary key field type

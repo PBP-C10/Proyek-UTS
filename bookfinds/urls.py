@@ -1,7 +1,7 @@
 from django.urls import path
 from bookfinds.views import *
 
-app_name = 'main'
+app_name = 'bookfinds'
 
 urlpatterns = [
     path('', show_main, name='show_main'),

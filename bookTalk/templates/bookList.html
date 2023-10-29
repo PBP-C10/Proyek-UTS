@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>List of Reviews</h1>
+
+    <div id="review_card" data-id="{{ book.pk }}"></div>
+    <!-- List of Review Cards -->
+    <div class="row mt-4">
+        <div></div>
+        {% for review in reviews %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ review.book.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ review.reviewer_user }}</h6>
+                    <p class="card-text">{{ review.review_text }}</p>
+                    <p class="card-text">Rating: {{ review.rating }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No reviews available.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="createReviewModal" tabindex="-1" aria-labelledby="createReviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="color: black;">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" style="color: black;" id="createReviewModalLabel">Create New Review</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false">
+                        {% csrf_token %}
+                        <div class="mb-3" style="font-size: medium;">
+                            <textarea required placeholder="Type your thoughts ..." class="form-control" id="review_text" name="review_text"></textarea>
+                        </div>
+
+                        <div class="mb-3" style="font-size: medium;">
+                            <label for="rating" class="col-form-label">Rating</label>
+                            <select id="rating" class="form-control" name="rating" required>
+                                <option value="1">Bintang 1</option>
+                                <option value="2">Bintang 2</option>
+                                <option value="3">Bintang 3</option>
+                                <option value="4">Bintang 4</option>
+                                <option value="5">Bintang 5</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" style="font-size: medium;">
+                            <input required type="hidden" class="form-control" id="reviewer_user" name="reviewer_user" value=""></input>
+                        </div>
+
+                        <div class="mb-3" style="font-size: medium;">
+                            <input required type="hidden" class="form-control" id="book" name="book" value=""></input>
+                        </div>
+                        
+                        <div class="mb-3" style="font-size: medium;">
+                            <input required type="hidden" class="form-control" id="username" name="username" value=""></input>
+                        </div>
+
+                        <div class="modal-footer" style="justify-content: center;">
+                            <button id="create_review_button" type="submit" value="Submit" class="btn btn-outline-success" data-bs-dismiss="modal">Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Add Review Button -->
+    <!-- <div class="mt-4">
+        <a href="{% url 'book-talk:create_review' %}" class="btn btn-primary">Add Review</a>
+    </div> -->
+
+    <div class="text-center mt-3">
+        <button id="createReviewModalButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#createReviewModal">Create a Review</button>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/bookList.js"></script>
+{% endblock content %}
