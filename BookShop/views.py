@@ -1,16 +1,9 @@
 from django.shortcuts import render, redirect
-from BookShop.forms import OrderForm  # Pastikan Anda mengimpor OrderForm
-from BookShop.models import Cart,Order
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from BookShop.forms import OrderForm
+from BookShop.models import Cart, Order
 from bookfinds.models import Book
-from django.core import serializers
-from django.http import HttpResponse, JsonResponse
-from django.core.paginator import Paginator
-from django.db.models import Q
-
-
-# Create your views here.
+from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 def shopping_main(request):
     if not request.user.is_anonymous:
@@ -19,80 +12,99 @@ def shopping_main(request):
         cart = None
 
     book_data = []
-    total_price = 0
 
     if cart:
-        # Ganti cart.books.all() menjadi cart.cart_books.all() jika diperlukan
-        books = cart.cart_books.all()
+        books = cart.books.all()
+
         for book in books:
             book_info = {
                 'title': book.title,
                 'price': book.price,
-                'thumbnail': book.thumbnail
+                'thumbnail': book.thumbnail,
+                'id': book.id,
             }
             book_data.append(book_info)
-            total_price += book.price
 
-        return render(request, "shopping_cart.html", {'book_data': book_data, 'cart': cart, 'total_price': total_price})
+        current_order = Order.objects.filter(user=request.user, cart=cart, status=0).first()
     else:
-        return render(request, "shopping_cart.html", {'book_data': book_data, 'cart': cart, 'total_price': 0})
+        current_order = None
 
-def get_carts(request):
-    cart = Cart.objects.get(user=request.user)
-    books = cart.books.all()
+    return render(request, "shopping_cart.html", {
+        'book_data': book_data,
+        'cart': cart,
+        'current_order': current_order,
+        'total_price': cart.total_price if cart else 0
+    })
 
-    book_data = []
+def add_books_to_cart(request, book_id):
+    if request.method == 'GET':
+        book = Book.objects.get(pk=book_id)
 
-    for book in books :
-        book_info = {
-            'title' : book.title,
-            'price' : book.price,
-            'thumbnail' : book.thumbnail
-         }
-        book_data.append(book_info)
-    return JsonResponse(book_data, safe=False)
+        cart, created = Cart.objects.get_or_create(user=request.user, defaults={'total_price': 0})
+
+        if book not in cart.books.all():
+            cart.books.add(book)
+            cart.total_price += book.price
+            cart.save()
+
+    return redirect('BookShop:shopping_main')
 
 
 def create_order(request):
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.user = request.user
+        order_form = OrderForm(request.POST)
+
+        if order_form.is_valid():
+            email = order_form.cleaned_data['email']
+            payment_method = order_form.cleaned_data['payment_method']
+
+            cart, created = Cart.objects.get_or_create(user=request.user, defaults={'total_price': 0})
+
+            total_price = cart.total_price
+
+            order = Order(user=request.user, cart=cart, email=email, payment_method=payment_method)
             order.save()
-            # Redirect to the confirm_order page with the order_id as a parameter
-            return redirect('confirm_order', order_id=order.id)
+
+            cart.status = 1
+            cart.save()
+
+            messages.success(request, 'Pesanan Anda telah berhasil diajukan. Keranjang belanja kosong.')
+
+            return render(request, "create_order.html", {
+                'order_form': order_form,
+                'total_price': total_price,
+            })
     else:
-        form = OrderForm()
+        order_form = OrderForm()
+        total_price = 0
 
-    return render(request, 'create_order.html', {'form': form})
+        if request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(user=request.user, defaults={'total_price': 0})
+            total_price = cart.total_price
 
-def confirm_order(request):
-    if request.method == 'POST':
-        selected_books = request.POST.getlist('selected_books')
+        return render(request, "create_order.html", {'order_form': order_form, 'total_price': total_price})
 
-        # Pastikan keranjang belanja pengguna sudah ada
+@csrf_exempt
+def submit_order(request):
+    cart, created = Cart.objects.get_or_create(user=request.user, defaults={'total_price': 0})
+
+    cart.books.clear()
+    cart.total_price = 0
+    cart.save()
+
+    messages.success(request, 'Pesanan Anda telah berhasil diajukan. Keranjang belanja kosong.')
+
+    return redirect('BookShop:shopping_main')
+
+def remove_book(request, book_id):
+    if request.method == 'GET':
+        book = Book.objects.get(pk=book_id)
+
         cart, created = Cart.objects.get_or_create(user=request.user, defaults={'total_price': 0})
 
-        # Buat objek pesanan dan hubungkan dengan keranjang belanja pengguna
-        order = Order.objects.create(cart=cart, email=request.user.email, payment_method=1)
+        if book in cart.books.all():
+            cart.books.remove(book)
+            cart.total_price -= book.price
+            cart.save()
 
-        # Tambahkan buku yang dipilih ke dalam pesanan
-        for book_id in selected_books:
-            book = Book.objects.get(pk=book_id)
-            order_item = Order(order=order, book=book)
-            order_item.save()
-
-        
-
-        # Redirect ke halaman konfirmasi pesanan atau halaman lain jika diperlukan
-        return redirect('confirm_order', order_id=order.id)
-
-    # Handle metode GET atau lainnya jika diperlukan
-    return render(request, 'create_order.html', {'form': form})
-
-
-
-
-
-
+    return redirect('BookShop:shopping_main')

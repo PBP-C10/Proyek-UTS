@@ -18,3 +18,4 @@ class Order(models.Model):
     email = models.EmailField()
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='orders')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.IntegerField(default=0)

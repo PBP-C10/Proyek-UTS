@@ -3,20 +3,19 @@
 {% block content %}
     <h1>Shopping Cart Page</h1>
 
-    <form method="post" action="{% url 'BookShop:confirm_order' %}">
-        {% csrf_token %}
+ 
         
         <div class="container-fluid d-flex">
             <div class="m-1 container w-25">
-                <!-- Menampilkan Total Harga di Sini -->
+                <!-- Display Total Price Here -->
                 <h4>Total Price</h4>
                 <p>Total Price: ${{ total_price }}</p>
-                <button type="submit" class="btn btn-primary">Create Order</button>
+                <a href="{% url 'BookShop:create_order' %}" class="btn btn-success">Create Order</a>
             </div>
 
             <div class="container-fluid">
                 <div id="book_cards" class="my-3">
-                    <!-- Daftar buku akan ditampilkan di sini -->
+                    <!-- List of books will be displayed here -->
                     {% if book_data %}
                         <ul class="list-group">
                             {% for book_info in book_data %}
@@ -24,7 +23,7 @@
                                     <div class="item-details">
                                         <div class="d-flex align-items-center">
                                             <div class="item-image mr-2">
-                                                <img src="{{ book_info.thumbnail }}" alt="{{ book_info.title }}">
+                                                <img src="{{ book_info.thumbnail }}" alt="{{ book_info.title }}" style="max-width: 100px;">
                                             </div>
                                             <div>
                                                 <h2>{{ book_info.title }}</h2>
@@ -32,8 +31,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="selected_books" value="{{ book_info.id }}">
+                                    <div class="item-actions">
+                                        <a href="{% url 'BookShop:remove_book' book_info.id %}" class="btn btn-danger">Delete</a>
                                     </div>
                                 </li>
                             {% endfor %}
