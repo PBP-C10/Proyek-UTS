@@ -155,13 +155,16 @@ function requestBook() {
         method: "POST",
         body: new FormData(document.querySelector('#request-form'))
     }).then((res) => {
+        const requestModal = document.querySelector('#bookRequestModal')
+        const requestModalBootstrap = bootstrap.Modal.getInstance(requestModal)
+        const loginToast = document.querySelector('#loginToast')
+        const loginToastBootstrap = new bootstrap.Toast(loginToast)
+       
         if (res.status == 201){
             document.getElementById("request-form").reset()
-            const requestModal = document.querySelector('#bookRequestModal')
-            const modal = bootstrap.Modal.getInstance(requestModal)
-            modal.hide()
+            requestModalBootstrap.hide()
         } else if (res.status == 401){
-            
+            loginToastBootstrap.show()
         }
     })
 }
@@ -170,7 +173,7 @@ let reqButton = document.getElementById("reqButtonDiv")
 
 
 reqButton.onclick = function() {
-    reqButton.style.width = '200px'
+    reqButton.style.width = '200px' 
     let timer = setTimeout( function() {
         document.getElementById("reqButton").innerHTML = `<p class="container-fluid text-center m-0">Missing a Book? <br> Request New Book</p>`
     }, 200)

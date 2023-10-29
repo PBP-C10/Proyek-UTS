@@ -22,7 +22,7 @@ class BookRequest(models.Model):
         REQUESTED = "REQ", _("Requested")
         ACCEPTED = "ACC", _("Accepted")
         DENIED = "DEN", _("Denied")
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     category = models.CharField(max_length=255)

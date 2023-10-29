@@ -81,7 +81,9 @@ def request_book(request):
     if request.user.is_authenticated:
         form = BookRequestForm(request.POST or None)
         if form.is_valid() and request.method == "POST":
-            form.save()
+            book_request = form.save(commit=False)
+            book_request.user = request.user
+            book_request.save()
             return HttpResponse(b"CREATED", status=201)
         return HttpResponseBadRequest()
     else:
