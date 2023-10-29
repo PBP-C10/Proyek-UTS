@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.db.models import Q
 from bookfinds.forms import BookRequestForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def show_main(request):
@@ -77,6 +78,7 @@ def show_book_details(request, id):
     return render(request, 'bookdetails.html', context)
 
 def request_book(request):
+    print(request.user.is_authenticated)
     if request.user.is_authenticated:
         form = BookRequestForm(request.POST or None)
         if form.is_valid() and request.method == "POST":

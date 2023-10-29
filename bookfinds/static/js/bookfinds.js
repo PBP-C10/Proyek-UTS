@@ -155,12 +155,13 @@ function requestBook() {
         method: "POST",
         body: new FormData(document.querySelector('#request-form'))
     }).then((res) => {
-        console.log(res)
         if (res.status == 201){
             document.getElementById("request-form").reset()
             const requestModal = document.querySelector('#bookRequestModal')
             const modal = bootstrap.Modal.getInstance(requestModal)
             modal.hide()
+        } else if (res.status == 401){
+            
         }
     })
 }
