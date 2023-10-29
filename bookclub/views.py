@@ -142,7 +142,7 @@ def create_club(request):
 
         bubble = request.POST.get("bubble")
 
-        new_bubble = Bubble(user=user, club=new_club, content=bubble)
+        new_bubble = Bubble(user=user, username=user.username, club=new_club, content=bubble)
         new_bubble.save()
 
         return HttpResponse(b"CREATED", status=201)   
@@ -152,9 +152,8 @@ def post_bubble(request, club_id):
     club = get_object_or_404(Club, id=club_id)
     form = BubbleForm(request.POST or None)
 
-    print(request.user.username)
     if form.is_valid() and request.method == "POST":
-        form.save(user=request.user, username=request.user.username, club=club)
+        form.save(user=request.user, club=club)
 
         return HttpResponse("CREATED", 201)
 

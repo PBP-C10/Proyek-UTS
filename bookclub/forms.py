@@ -37,17 +37,12 @@ class ClubForm(ModelForm):
 
         return instance
     
-class BubbleForm(ModelForm):
-    content = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder': 'Type your thoughts here ...'}), 
-        required=True
-    )
-    
+class BubbleForm(ModelForm):    
     class Meta:
         model = Bubble
-        fields = ["content"]
+        fields = ["content", "username"]
 
-    def save(self, commit=True, user=None, username=None, club=None):
+    def save(self, commit=True, user=None, club=None):
         instance = super(BubbleForm, self).save(commit=False)
         
         bubble_content = self.cleaned_data.get('content')
@@ -55,7 +50,6 @@ class BubbleForm(ModelForm):
 
         if user is not None:
             instance.user = user
-            instance.username = username
 
         if club is not None:
             instance.club = club
