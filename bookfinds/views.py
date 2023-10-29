@@ -78,7 +78,6 @@ def show_book_details(request, id):
     return render(request, 'bookdetails.html', context)
 
 def request_book(request):
-    print(request.user.is_authenticated)
     if request.user.is_authenticated:
         form = BookRequestForm(request.POST or None)
         if form.is_valid() and request.method == "POST":

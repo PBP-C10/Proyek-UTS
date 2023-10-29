@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
-from django.http import JsonResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
 from bookclub.models import Club, Book, Bubble
 from bookclub.forms import ClubForm, BubbleForm, BookRecForm
@@ -26,7 +25,7 @@ def get_recommended_book_json(request, club_id):
     recommended_books = club.recommended_books.all()
     return HttpResponse(serializers.serialize('json', recommended_books))
 
-@login_required(login_url='/login')
+@login_required(login_url='/login/?next=book-club/')
 def show_main(request):
     clubs = Club.objects.all()
     club_form = ClubForm()
@@ -116,12 +115,14 @@ def show_club(request, club_id):
     books = club.recommended_books
     bubbles = Bubble.objects.filter(club=club)
     bubble_form = BubbleForm()
+    book_recommendation_form = BookRecForm()
 
     context = {
         'club' : club,
         'books' : books,
         'bubbles' : bubbles,
-        'bubble_form' : bubble_form
+        'bubble_form' : bubble_form,
+        'book_recommendation_form' : book_recommendation_form,
     }
 
     return render(request, "show_club.html", context)
@@ -141,7 +142,7 @@ def create_club(request):
 
         bubble = request.POST.get("bubble")
 
-        new_bubble = Bubble(user=user, club=new_club, content=bubble)
+        new_bubble = Bubble(user=user, username=user.username, club=new_club, content=bubble)
         new_bubble.save()
 
         return HttpResponse(b"CREATED", status=201)   
@@ -158,7 +159,7 @@ def post_bubble(request, club_id):
 
     return HttpResponseNotFound
 
-@login_required(login_url='/login')
+@csrf_exempt
 def add_rec_book(request, club_id):
     club = get_object_or_404(Club, id=club_id)
     form = BookRecForm(request.POST or None, instance=club)
@@ -166,7 +167,6 @@ def add_rec_book(request, club_id):
     if form.is_valid() and request.method == 'POST':
         form.save(instance=club)
 
-        return HttpResponseRedirect(reverse('book-club:show_club', args=[club_id]))
+        return HttpResponse("CREATED", 201)
 
-    context = {'form': form}
-    return render(request, "add_rec_book.html", context)
+    return HttpResponseNotFound
