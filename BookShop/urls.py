@@ -10,5 +10,5 @@ urlpatterns = [
     path('create-order/', create_order, name='create_order'),  
     path('submit-order/', submit_order, name='submit_order'),
     path('remove_book/<int:book_id>/', remove_book, name='remove_book'),
-    path('get-books', filter_books, name='get_books'),
+    path('shopping-main/filter-books', filter_books, name='filter_books'),
 ]

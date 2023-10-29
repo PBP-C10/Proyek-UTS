@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Create Order Page</h1>
+    <div class="container-fluid" style = "margin-top:90px;">
+        <h1>Confirm your Order</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ order_form.as_p }}
-        <p>Total Price: ${{ total_price }}</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ order_form.as_p }}
+            <p>Total Price: ${{ total_price }}</p>
 
-        <p>Payment can be made via:</p>
-        <ul>
-            <li>Gopay: 093789654322 (Literatour)</li>
-            <li>OVO: 5847590740303 (Literatour)</li>
-            <li>Transfer Bank ABC: 470749069043090 (Literatour)</li>
-        </ul>
+            <p>Payment can be made via:</p>
+            <ul>
+                <li>Gopay: 093789654322 (Literatour)</li>
+                <li>OVO: 5847590740303 (Literatour)</li>
+                <li>Transfer Bank ABC: 470749069043090 (Literatour)</li>
+            </ul>
 
-        <a href="{% url 'BookShop:submit_order' %}" class="btn btn-primary">Confirm Order</a>
-    </form>
+            <a href="{% url 'BookShop:submit_order' %}" class="btn btn-primary">Confirm Order</a>
+        </form>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

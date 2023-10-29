@@ -4,14 +4,14 @@ from BookShop.models import Cart, Order
 from bookfinds.models import Book
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.db.models import Q
 from django.core import serializers
 from django.core.paginator import Paginator
 
+
 def filter_books(request):
     books = Book.objects.all()
-
 
     min_price = request.GET.get('minPrice')
     max_price = request.GET.get('maxPrice')
@@ -19,7 +19,7 @@ def filter_books(request):
     if not min_price:
         min_price = 0
 
-    if not max_price:
+    if not max_price or max_price == "":
         max_price = 500000
 
     books = books.filter(price__range=[min_price, max_price])
@@ -28,32 +28,8 @@ def filter_books(request):
     if min_rating:
         books = books.filter(average_rating__range=[min_rating,5])
 
-    page = request.GET.get('page')
-    if not page:
-        page = 1
-    paginator = Paginator(books, 30)
-    booksInPage = paginator.get_page(page)
-
-    if booksInPage.has_next():
-        next_page = booksInPage.next_page_number()
-    else:
-        next_page = None
-
-    if booksInPage.has_previous():
-        prev_page = booksInPage.previous_page_number()
-    else:
-        prev_page = None
-
-    data = {
-        'total_page_num': paginator.num_pages,
-        'current_page': int(page),
-        'has_next': booksInPage.has_next(),
-        'next_page': next_page,
-        'has_previous': booksInPage.has_previous(),
-        'prev_page': prev_page,
-        'books': serializers.serialize('json', booksInPage),
-    }
-    return JsonResponse(data)    
+    return HttpResponse(serializers.serialize('json', books))
+    
 
 
 def shopping_main(request):
