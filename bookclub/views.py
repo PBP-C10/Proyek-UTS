@@ -26,7 +26,7 @@ def get_recommended_book_json(request, club_id):
     recommended_books = club.recommended_books.all()
     return HttpResponse(serializers.serialize('json', recommended_books))
 
-@login_required(login_url='/login')
+@login_required(login_url='/login/?next=book-club/')
 def show_main(request):
     clubs = Club.objects.all()
     club_form = ClubForm()

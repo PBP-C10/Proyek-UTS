@@ -24,7 +24,10 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            response = HttpResponseRedirect(reverse("bookfinds:show_main")) 
+            if 'next' in request.POST:
+                response = HttpResponseRedirect(request.POST['next'])
+            else:
+                response = HttpResponseRedirect(reverse("bookfinds:show_main")) 
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:

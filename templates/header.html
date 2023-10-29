@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="m-2 container-fluid navbar-nav d-flex justify-content-end">
+            <div class="m-2 container-fluid navbar-nav d-flex justify-content-start">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'bookfinds:show_main' %}">
@@ -40,7 +40,22 @@
                         </a>
                     </li>
                 </ul>
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown text-white ms-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{user}}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="nav-link m-2 active" aria-current="page" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="nav-link active bg-danger m-2 text-center rounded text-white" aria-current="page" href="{% url 'signInSignUp:logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
+        
     </nav>
 </header>
