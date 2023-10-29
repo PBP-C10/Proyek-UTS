@@ -77,7 +77,8 @@ async function loadBubbles(clubId) {
 }
 
 function postBubble(clubId) {
-    document.getElementById("username").value = "abc";
+    const username = document.getElementById("navbarDropdown").innerHTML;
+    document.getElementById("username").value = username;
 
     const postBubbleURL = "post-bubble/";
     fetch(postBubbleURL, {
