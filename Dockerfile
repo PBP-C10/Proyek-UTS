@@ -23,7 +23,6 @@ RUN pip install -r /requirements.txt
 COPY . .
 
 RUN python manage.py collectstatic --noinput --clear
-RUN python manage.py loaddata books_100.json
 
 # Run as non-root user
 RUN chown -R django:django /app
