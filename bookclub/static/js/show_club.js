@@ -1,12 +1,12 @@
 let category =[];
 
 async function getRecommendedBooks(clubId) {
-    const recommendedBooksURL = "{% url 'book-club:get_recommended_book_json' 0 %}".replace("0", clubId);
+    const recommendedBooksURL = "get-recommended-book-json/";
     return fetch(recommendedBooksURL).then((res) => res.json())
 }
 
 async function getBubbles(clubId) {
-    const bubbleURL = "{% url 'book-club:get_bubble_json' 0 %}".replace("0", clubId);
+    const bubbleURL = "get-bubble-json/";
     return fetch(bubbleURL).then((res) => res.json())
 }
 
@@ -79,7 +79,7 @@ async function loadBubbles(clubId) {
 function postBubble(clubId) {
     document.getElementById("username").value = "abc";
 
-    const postBubbleURL = "{% url 'book-club:post_bubble' 0 %}".replace("0", clubId);
+    const postBubbleURL = "post-bubble/";
     fetch(postBubbleURL, {
         method: "POST",
         body: new FormData(document.querySelector('#bubbleForm')),
@@ -90,7 +90,7 @@ function postBubble(clubId) {
 }
 
 function addRecBook(clubId) {
-    const addRecBookURL = "{% url 'book-club:add_rec_book' 0 %}".replace("0", clubId);
+    const addRecBookURL = "add-rec-book/";
     fetch(addRecBookURL, {
         method: "POST",
         body: new FormData(document.querySelector('#recBookForm')),
