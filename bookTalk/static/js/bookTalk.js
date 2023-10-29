@@ -35,15 +35,23 @@ async function refreshPage(category, filter, page, minPrice, maxPrice, minRating
     } else {
         books.forEach((book) => {
             bookCardString += 
-            `<div class="col col-auto my-2">
-                <div class="card shadow rounded h-100" onclick="getDetail(this)" id="${book.pk}">
-                    <div class="card-body d-flex flex-column p-2 h-100">
-                        <h6 class="card-title mb-2 text-truncate-2 lh-2">Review ${book.fields.title}</h6>
-                        <h6 class="card-text mb-2 text-muted text-truncate-2">${book.fields.author}</h6>
+            // `<div class="col col-auto my-2">
+            //     <div class="card shadow rounded h-100" onclick="getDetail(this)" id="${book.pk}">
+            //         <div class="card-body d-flex flex-column p-2 h-100">
+            //             <h6 class="card-title mb-2 text-truncate-2 lh-2">Review ${book.fields.title}</h6>
+            //             <h6 class="card-text mb-2 text-muted text-truncate-2">${book.fields.author}</h6>
+            //         </div>
+            //     </div>
+            // </div>`
+
+            `<div class="container">
+                <div class="col col-auto my-2">
+                    <div class="card-header shadow" onclick="getDetail(this)" id="${book.pk}"
+                        <p style="font-weight: bold; margin-top: 10px;" class="card-title">Review of "${book.fields.title}"</p>
+                        <p style="font-size: xx-small;">${book.fields.author}</p>
                     </div>
                 </div>
             </div>`
-            
         })
 
         totalPageNum = JSON.parse(booksData.total_page_num)
@@ -117,18 +125,7 @@ function searchBookByCategory(checkbox){
     refreshPage(category,filter,page, minPrice, maxPrice, minRating)
 }
 
-function getDetail(book){
-    document.addEventListener('DOMContentLoaded', (event) => {
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                const bookId = card.getAttribute('data-book-id');
-                window.location.href = `/book-list/book/${bookId}/`;
-            });
-        });
-    });
-    window.location.href = `/book-list/book/${bookId}/`;
-        
+function getDetail(card) {
+    window.location = new URL('book/' + card.id, window.location);
 }
-
-
 

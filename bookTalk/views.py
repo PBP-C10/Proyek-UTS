@@ -14,25 +14,27 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from .models import Book, Review
 from .forms import ReviewForm
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
-#Create your views here
-def buku_detail(request, book_id):
-    book = Book.objects.get(pk=book_id)
-    review = Review.objects.filter(book=book)
+# #Create your views here
+# def buku_detail(request, book_id):
+#     book = Book.objects.get(pk=book_id)
+#     review = Review.objects.filter(book=book)
 
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            ulasan = form.save(commit=False)
-            ulasan.user = request.user
-            ulasan.book = book
-            ulasan.save()
-            return redirect('buku_detail', book_id=book_id)
-    else:
-        form = ReviewForm()
+#     if request.method == 'POST':
+#         form = ReviewForm(request.POST)
+#         if form.is_valid():
+#             ulasan = form.save(commit=False)
+#             ulasan.user = request.user
+#             ulasan.book = book
+#             ulasan.save()
+#             return redirect('buku_detail', book_id=book_id)
+#     else:
+#         form = ReviewForm()
 
-    context = {'book': book, 'review': review, 'form': form}
-    return render(request, 'ulasan.html', context)
+#     context = {'book': book, 'review': review, 'form': form}
+#     return render(request, 'ulasan.html', context)
 
 
 # Create your views here.
@@ -51,7 +53,7 @@ def create_review(request):
 
     if form.is_valid() and request.method == 'POST':
         form.save()
-        return HttpResponseRedirect(reverse('bookTalk:show_main'))\
+        return HttpResponseRedirect(reverse('book-talk:show_main'))\
         
     context = {'form': form}
     return render(request, 'create_review.html', context)
@@ -64,6 +66,18 @@ def create_review_ajax (request):
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False})
+
+@csrf_exempt
+def post_review(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    form = ReviewForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save(user=request.user, book=book)
+
+        return HttpResponse("CREATED", 201)
+
+    return HttpResponseNotFound
     
 def get_books(request):
     books = Book.objects.all()
@@ -120,8 +134,9 @@ def get_book_json(request):
     books = Book.objects.all()
     return HttpResponse(serializers.serialize('json', books))
 
-def get_review_json(request):
-    reviews = Review.objects.all()
+def get_review_json(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    reviews = Review.objects.filter(book=book)
     return HttpResponse(serializers.serialize('json', reviews))
 
 # def book_list(request, book_id):
