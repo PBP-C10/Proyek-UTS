@@ -4,6 +4,33 @@ from BookShop.models import Cart, Order
 from bookfinds.models import Book
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse,HttpResponse
+from django.db.models import Q
+from django.core import serializers
+from django.core.paginator import Paginator
+
+
+def filter_books(request):
+    books = Book.objects.all()
+
+    min_price = request.GET.get('minPrice')
+    max_price = request.GET.get('maxPrice')
+
+    if not min_price:
+        min_price = 0
+
+    if not max_price or max_price == "":
+        max_price = 500000
+
+    books = books.filter(price__range=[min_price, max_price])
+
+    min_rating = request.GET.get('minRating')
+    if min_rating:
+        books = books.filter(average_rating__range=[min_rating,5])
+
+    return HttpResponse(serializers.serialize('json', books))
+    
+
 
 def shopping_main(request):
     if not request.user.is_anonymous:
