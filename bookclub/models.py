@@ -12,6 +12,7 @@ class Club(models.Model):
 
 class Bubble(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
 
     content = models.TextField()

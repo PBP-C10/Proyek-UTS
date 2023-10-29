@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container-fluid d-flex" style="margin-top:90px">
+<div class="container-fluid d-flex" style="margin-top: 90px;">
     <div class="container w-25">
         <h4>Filter</h4>
         <div class="container py-2 border rounded shadow-sm">
@@ -152,7 +152,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="request-form" onsubmit="return false;">
+                    <form id="request-form" onsubmit="return false">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="title" class="col-form-label">Title:</label>
@@ -165,7 +165,7 @@
                         <div class="mb-3">
                             <label for="category" class="col-form-label">Category:</label>
                             <select class="form-select" id="category" name="category" required>
-                                <option selected>Choose Category...</option>
+                                <option disabled selected hidden>Choose Category...</option>
                                 <option value="Adventure stories">Adventure Stories</option>
                                 <option value="Art">Art</option>
                                 <option value="Comics & Graphics Novels">Comics & Graphics Novels</option>
@@ -177,24 +177,26 @@
                                 <option value="Science fiction">Science Fiction</option>
                               </select>
                         </div>
+                        <div class="mb-3 d-none">
+                            <input type="hidden" class="form-control" id="status" name="status" value="REQ" required></input>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="button_request" data-bs-dismiss="modal" onclick=requestBook()>Request New Book</button>
+                    <button type="submit" class="btn btn-primary" id="button_request" onclick="requestBook()">Request New Book</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid container-request-button d-flex justify-content-center align-items-center p-0" id="reqButtonDiv" >
+    <div class="container-fluid container-request-button d-flex justify-content-center align-items-center p-0" id="reqButtonDiv">
         <button type="button" class="request-button btn btn-primary container-fluid rounded-pill h-100"
              data-bs-toggle="modal" data-bs-target="#bookRequestModal" id="reqButton">
             <h3 class="container-fluid text-center m-0"><i class="bi bi-plus"></i></h3>
         </button>
     </div>
 </div>
-
 <link rel="stylesheet" type="text/css" href="/static/css/bookfinds.css"/>
 <script type="text/javascript" src="/static/js/bookfinds.js"></script>
 

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid" style = "margin-top:90px;">
+        <h1>Book Shop</h1>
+
+        <div class="container-fluid d-flex">
+            <div class="m-1 container w-25">
+                <h4>Price Filter</h4>
+                <div class="form-group">
+                    <label for="minPrice">Min Price:</label>
+                    <input type="number" class="form-control" id="minPrice" placeholder="Min Price">
+                </div>
+                <div class="form-group">
+                    <label for="maxPrice">Max Price:</label>
+                    <input type="number" class="form-control" id="maxPrice" placeholder="Max Price">
+                </div>
+                <button class="btn btn-primary" id="applyFilterButton" onclick = "filterHarga()">Apply Filter</button>
+                <!-- Display Total Price Here -->
+                <h4>Total Price</h4>
+                <p>Total Price: ${{ total_price }}</p>
+                <a href="{% url 'BookShop:create_order' %}" class="btn btn-success">Create Order</a>
+            </div>
+
+            <div class="container-fluid">
+                <div id="book_cards" class="my-3">
+                    <!-- List of books will be displayed here -->
+                    {% if book_data %}
+                        <ul class="list-group">
+                            {% for book_info in book_data %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="item-details">
+                                        <div class="d-flex align-items-center">
+                                            <div class="item-image mr-2">
+                                                <img src="{{ book_info.thumbnail }}" alt="{{ book_info.title }}" style="max-width: 100px;">
+                                            </div>
+                                            <div>
+                                                <h2>{{ book_info.title }}</h2>
+                                                <p>Price: ${{ book_info.price }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item-actions">
+                                        <a href="{% url 'BookShop:remove_book' book_info.id %}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        s<p class="text-center">Your shopping cart is empty.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function filter_books(min_price, max_price) {
+            console.log(window.location.hostname)
+            let url = new URL("filter-books", window.location);
+            let param = new URLSearchParams(url.search);
+            console.log(url.href)
+            if (min_price != 0) {
+                param.append("minPrice", min_price);
+            }
+    
+            if (max_price < 500000) {
+                param.append("maxPrice", max_price);
+            }
+    
+            url = new URL(url.href + "/?" + param);
+            console.log(url.href)
+            return fetch(url).then((res) => res.json());
+        }
+
+        let minPrice = 0
+        let maxPrice = 500000
+    
+        async function load_cart(minPrice,maxPrice) {
+            
+    
+            const books = await filter_books(minPrice, maxPrice);
+    
+            let bookString = `<div id="book_cards" class="my-3">`;
+    
+            books.forEach((book) => {
+                book.fields.ratings_count = book.fields.ratings_count > 1000 ? Math.floor(book.fields.ratings_count / 1000) + "k+" : book.fields.ratings_count;
+                if (book.fields.subtitle != "") {
+                    book.fields.subtitle = ": " + book.fields.subtitle;
+                }
+                bookString +=
+                    `<div class="col col-auto my-2">
+                        <div class="card shadow rounded h-100" onclick="getDetail(this)" id="${book.pk}">
+                            <img src="${book.fields.thumbnail}" alt="" class="card-img-top h-50" loading="lazy">
+                            <div class="card-body d-flex flex-column p-2 h-50">
+                                <h6 class="card-title mb-2 text-truncate-2 lh-2">${book.fields.title}${book.fields.subtitle}</h6>
+                                <h6 class="card-text mb-2">Rp ${book.fields.price}</h6>
+                                <button class="btn btn-danger delete-book" data-book-id="${book.pk}">Delete</button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+    
+            // Masukkan bookString ke dalam elemen yang sesuai
+            const bookCards = document.getElementById('book_cards');
+            bookCards.innerHTML = bookString;
+            
+        }
+
+        load_cart(minPrice,maxPrice);
+    
+        async function filterHarga() {
+            let minPrice = document.getElementById("minPrice").value;
+            let maxPrice = document.getElementById("maxPrice").value;
+            load_cart(minPrice,maxPrice);
+        }
+    </script>    
+{% endblock %}

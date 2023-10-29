@@ -25,7 +25,12 @@
 
             <tr>
                 <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
+                <td>
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{request.GET.next}}" />
+                    {% endif %}
+                    <input class="btn login_btn" type="submit" value="Login">
+                </td>
             </tr>
         </table>
     </form>
@@ -38,7 +43,7 @@
         </ul>
     {% endif %}     
         
-    Don't have an account yet? <a href="{% url 'RegLogInOut:register' %}">Register Now</a>
+    Don't have an account yet? <a href="{% url 'signInSignUp:register' %}">Register Now</a>
 
 </div>
 
