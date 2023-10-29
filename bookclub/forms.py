@@ -3,14 +3,10 @@ from django.forms import ModelForm
 from bookclub.models import Club, Bubble, Book
 
 class ClubForm(ModelForm):
-    recommended_books = forms.ModelChoiceField(
-        queryset=Book.objects.values_list('title', flat=True).order_by('title'),
-    )
-
-    bubble_content = forms.CharField(
-        label="Bubble Content",
-        widget=forms.Textarea(),   
-    )
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Club Name'}), required=True)
+    description = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Type your club description here ...'}), required=True)
+    recommended_books = forms.ModelChoiceField(queryset=Book.objects.values_list('title', flat=True).order_by('title'),)
+    bubble_content = forms.CharField(label="Bubble Content", widget=forms.Textarea())
 
     class Meta:
         model = Club
@@ -41,6 +37,8 @@ class ClubForm(ModelForm):
         return instance
     
 class BubbleForm(ModelForm):
+    content = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Type your thoughts here ...'}), required=True)
+    
     class Meta:
         model = Bubble
         fields = ["content"]
@@ -48,6 +46,9 @@ class BubbleForm(ModelForm):
     def save(self, commit=True, user=None, club=None):
         instance = super(BubbleForm, self).save(commit=False)
         
+        bubble_content = self.cleaned_data.get('content')
+        instance.content = bubble_content
+
         if user is not None:
             instance.user = user
 
