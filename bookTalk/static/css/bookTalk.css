@@ -1,0 +1,25 @@
+.card {
+    width: 200px; /* Sesuaikan dengan lebar yang diinginkan */
+    height: 200px; /* Sesuaikan dengan tinggi yang diinginkan */
+}
+
+/* Atau, jika Anda ingin membuat kartu memiliki lebar dinamis tetapi tetap persegi panjang */
+.card {
+    width: 100%; /* Kartu akan mengisi lebar container */
+    height: 0;
+    padding-top: 100%; /* Rasio tinggi terhadap lebar, membuatnya persegi panjang */
+}
+
+/* Style lain sesuai kebutuhan Anda */
+.card:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.text-truncate-2 {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}

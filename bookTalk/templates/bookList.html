@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>List of Reviews</h1>
+
+    <!-- List of Review Cards -->
+    <div class="row mt-4">
+        {% for review in reviews %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ review.book.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ review.reviewer_user }}</h6>
+                    <p class="card-text">{{ review.review_text }}</p>
+                    <p class="card-text">Rating: {{ review.rating }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No reviews available.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add Review Button -->
+    <div class="mt-4">
+        <a href="{% create-review' %}" class="btn btn-primary">Add Review</a>
+    </div>
+</div>
+{% endblock content %}
