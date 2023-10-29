@@ -22,7 +22,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const confirmOrderButton = document.getElementById('confirm-order');
             const orderForm = document.getElementById('order-form');
-            const csrfToken = '{{ csrf_token }}';  // Ambil token CSRF dari template Django
+            const csrfToken = '{{ csrf_token }}'; 
     
             confirmOrderButton.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -31,7 +31,7 @@
                 fetch("{% url 'BookShop:submit_order' %}", {
                     method: 'POST',
                     headers: {
-                        'X-CSRFToken': csrfToken,  // Sertakan token CSRF di sini
+                        'X-CSRFToken': csrfToken,  
                     },
                     body: new FormData(orderForm),
                 })

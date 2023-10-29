@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'signInSignUp',
     'bookfinds',
     'bookclub',
-    'myLibrary',
     'BookShop'
 ]
 
