@@ -4,19 +4,23 @@
 
 {% block content %}
 <div style="margin-top: 90px;">
-    <h1>Book Club 🫂</h1>
-    <h5>Discover your perfect reading companion!</h5>
-    <hr>
+    <div class="text-center" style="padding-left: 20px; padding-right: 20px;">
+        <h1>Book Club 🫂</h1>
+        <h5>Discover your perfect reading companion!</h5>
+        <hr>
 
-    <div class="row">
-        <div id="club_card">
-    </div>
-    
-    <br>
-    
-    <div class="text-center mt-3">
-        <p>Haven't found the perfect reading buddy? Create one that matches you!</p>
-        <button id="createClubButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#createClubModal">Create New Club</button>
+        <div class="row">
+            <div id="club_card">
+        </div>
+        
+        <br>
+        
+        <div class="text-center mt-3">
+            <p>Haven't found the perfect reading buddy? Create one that matches you!</p>
+            <button class="btn btn-style-2" id="createClubButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#createClubModal">
+                Create New Club
+            </button>
+        </div>
     </div>
 </div>
 
@@ -62,5 +66,6 @@
 </div>
 
 <script type="text/javascript" src="/static/js/main.js">console.log("test")</script>
+<link rel="stylesheet" type="text/css" href="/static/css/bookclub.css">
 
 {% endblock content %}

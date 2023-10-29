@@ -1,13 +1,13 @@
 async function getClubs() {
-    return fetch("{% url 'book-club:get_club_json' %}").then((res) => res.json())
+    return fetch("get-club-json/").then((res) => res.json())
 }
 
 async function getBubbles(clubId) {
-    return fetch("{% url 'book-club:get_bubble_json' 0 %}").replace("0", clubId).then((res) => res.json())
+    return fetch("get-bubble-json/" + clubId).then((res) => res.json())
 }
 
 async function getBooks() {
-    return fetch("{% url 'book-club:get_book_json' %}").then((res) => res.json())
+    return fetch("get-book-json/").then((res) => res.json())
 }
 
 async function loadBooks() {
@@ -66,7 +66,7 @@ async function loadClubs() {
 function createClub() {
     loadBooks()
     
-    fetch("{% url 'book-club:create_club' %}", {
+    fetch("create-club/", {
         method: "POST",
         body: new FormData(document.querySelector('#form'))
     }).then(loadClubs)
@@ -76,13 +76,13 @@ function createClub() {
 }
 
 function showClub(clubId) {
-    window.location.href = `{% url 'book-club:show_club' 0 %}`.replace("0", clubId);
+    window.location = window.location.href + 'show-club/' + clubId + '/'
     
     return false
 }
 
 function joinClub(clubId) {
-    fetch("{% url 'book-club:join_club' 0 %}".replace("0", clubId), {
+    fetch("join-club/" + clubId + "/", {
         method: "POST",
         body: new FormData(document.querySelector('#form'))
     }).then(loadClubs)
@@ -92,7 +92,7 @@ function joinClub(clubId) {
 }
 
 function leaveClub(clubId) {
-    fetch("{% url 'book-club:leave_club' 0 %}".replace("0", clubId), {
+    fetch("leave-club/" + clubId + "/", {
         method: "POST",
         body: new FormData(document.querySelector('#form'))
     }).then(loadClubs)
@@ -102,7 +102,7 @@ function leaveClub(clubId) {
 }
 
 function deleteClub(clubId) {
-    fetch("{% url 'book-club:delete_club' 0 %}".replace("0", clubId), {
+    fetch("delete-club/" + clubId + "/", {
         method: "POST",
         body: new FormData(document.querySelector('#form'))
     }).then(loadClubs)
@@ -114,7 +114,7 @@ function deleteClub(clubId) {
 async function isOwner(clubId) {
     let isOwner = false
 
-    const response = await fetch("{% url 'book-club:is_owner' 0 %}".replace("0", clubId), {
+    const response = await fetch("is-owner/" + clubId + "/", {
         method: "POST",
         body: new FormData(document.querySelector('#form'))
     });
@@ -131,7 +131,7 @@ async function isOwner(clubId) {
 async function isMember(clubId) {
     let isMember = false
 
-    const response = await fetch("{% url 'book-club:is_member' 0 %}".replace("0", clubId), {
+    const response = await fetch("is-member/" + clubId + "/", {
         method: "POST",
         body: new FormData(document.querySelector('#form'))
     });

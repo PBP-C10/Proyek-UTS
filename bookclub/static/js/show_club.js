@@ -48,7 +48,7 @@ async function loadRecommendedBooks(clubId, category) {
     };
     
     document.getElementById("book_card").innerHTML = `
-    <div style="margin: 20px; display: flex; flex-wrap: nowrap; overflow-x: auto;">
+    <div style="padding: 20px; display: flex; flex-wrap: nowrap; overflow-x: auto;">
         ${cardHtml}
     </div>`;
 category = [];
@@ -61,9 +61,9 @@ async function loadBubbles(clubId) {
 
     for (const bubble of bubbles) {
         cardHtml += `
-        <div class="card border-primary mb-3">
+        <div class="card border-primary mb-3 w-100">
             <div class="card-header">
-                <p style="font-weight: bold; margin-top: 10px;" class="card-title">${bubble.fields.username}</p>
+                <p style="font-weight: bold; padding-top: 10px;" class="card-title">${bubble.fields.username}</p>
                 <p style="font-size: xx-small;">Posted on ${bubble.fields.timestamp}</p>
             </div>
             <div class="card-body">
@@ -73,7 +73,7 @@ async function loadBubbles(clubId) {
         `;
     }
 
-    document.getElementById("bubble_card").innerHTML = `<div style="margin: 20px" class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">${cardHtml}</div>`;
+    document.getElementById("bubble_card").innerHTML = `<div style="padding: 20px" class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">${cardHtml}</div>`;
 }
 
 function postBubble(clubId) {
