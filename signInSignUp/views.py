@@ -24,24 +24,16 @@ def login_user(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
-        if 'modal' in request.POST:
-            if user is not None:
-                login(request, user)
-                return HttpResponse(b"SUCCESS", status=201)
+        if user is not None:
+            login(request, user)
+            if 'next' in request.POST:
+                response = HttpResponseRedirect(request.POST['next'])
             else:
-                messages.info(request, 'Sorry, incorrect username or password. Please try again.')
-                return HttpResponseBadRequest()
+                response = HttpResponseRedirect(reverse("bookfinds:show_main")) 
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
         else:
-            if user is not None:
-                login(request, user)
-                if 'next' in request.POST:
-                    response = HttpResponseRedirect(request.POST['next'])
-                else:
-                    response = HttpResponseRedirect(reverse("bookfinds:show_main")) 
-                response.set_cookie('last_login', str(datetime.datetime.now()))
-                return response
-            else:
-                messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
     context = {}
     return render(request, 'login.html', context)
 

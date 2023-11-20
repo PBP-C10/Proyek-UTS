@@ -30,31 +30,28 @@ async function refreshPage(category, filter, page, minPrice, maxPrice, minRating
     books = JSON.parse(booksData.books)
     if (books.length == 0){
         bookCardString = 
-            `<div class="container-fluid text-center">
-                <h1 class="text-center"> No Books Found</h1>
-                <br>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookRequestModal" id="reqButtonNotFound">Request a Book</button>
-            </div>`
+            `<h1 class="text-center"> No books are found</h1> `
         pageString = ""
     } else {
         books.forEach((book) => {
-            book.fields.ratings_count = book.fields.ratings_count > 1000 ? Math.floor(book.fields.ratings_count / 1000) + "k+" : book.fields.ratings_count
-            if (book.fields.subtitle != ""){
-                book.fields.subtitle = ": " + book.fields.subtitle
-            }
             bookCardString += 
-                `<div class="col col-auto my-2">
-                    <div class="card shadow rounded h-100" onclick=getDetail(this) id=${book.pk}>
-                        <img src="${book.fields.thumbnail}" alt="" class="card-img-top h-50" loading="lazy">
-                        <div class="card-body d-flex flex-column p-2 h-50">
-                            <h6 class="card-title mb-2 text-truncate-2 lh-2">${book.fields.title}${book.fields.subtitle}</h6>
-                            <h6 class="card-text mb-2 text-muted text-truncate-2">${book.fields.author}</h6>
-                            <h6 class="card-text mb-2">Rp ${book.fields.price}</h6>
-                            <h6 class="card-text mb-2"><i class="bi bi-star-fill"></i> ${book.fields.average_rating}</h6> 
-                            <h6 class="card-text mb-2">${book.fields.ratings_count} ratings</h6>
-                        </div>
+            // `<div class="col col-auto my-2">
+            //     <div class="card shadow rounded h-100" onclick="getDetail(this)" id="${book.pk}">
+            //         <div class="card-body d-flex flex-column p-2 h-100">
+            //             <h6 class="card-title mb-2 text-truncate-2 lh-2">Review ${book.fields.title}</h6>
+            //             <h6 class="card-text mb-2 text-muted text-truncate-2">${book.fields.author}</h6>
+            //         </div>
+            //     </div>
+            // </div>`
+
+            `<div class="container">
+                <div class="col col-auto my-2">
+                    <div class="card-header shadow" onclick="getDetail(this)" id="${book.pk}"
+                        <p style="font-weight: bold; margin-top: 10px;" class="card-title">Review of "${book.fields.title}"</p>
+                        <p style="font-size: xx-small;">${book.fields.author}</p>
                     </div>
-                </div>`
+                </div>
+            </div>`
         })
 
         totalPageNum = JSON.parse(booksData.total_page_num)
@@ -102,6 +99,7 @@ let minRating = 0
 
 refreshPage(category, filter, page, minPrice, maxPrice, minRating)
 
+
 function goToPage(newPage){
     page = newPage
     refreshPage(category, filter, page, minPrice, maxPrice, minRating)
@@ -127,59 +125,7 @@ function searchBookByCategory(checkbox){
     refreshPage(category,filter,page, minPrice, maxPrice, minRating)
 }
 
-function filterHarga(){
-    filter = document.getElementById("search").value
-    minPrice = document.getElementById("minPriceBox").value
-    maxPrice = document.getElementById("maxPriceBox").value
-    refreshPage(category,filter,page,minPrice,maxPrice, minRating)
+function getDetail(card) {
+    window.location = new URL('book/' + card.id, window.location);
 }
 
-function filterRating(radio){
-    filter = document.getElementById("search").value
-    if (radio.checked){
-        minRating = parseInt(radio.value)
-    } else {
-        radio.checked = false
-        minRating = 0
-    }
-    refreshPage(category,filter,page,minPrice,maxPrice, minRating)
-}
-
-function getDetail(book){
-    window.location = new URL('detail/' + book.id, window.location)
-}
-
-function requestBook() {
-    let url = new URL("request-book/", window.location)
-    fetch(url, {
-        method: "POST",
-        body: new FormData(document.querySelector('#request-form'))
-    }).then((res) => {
-        const requestModal = document.querySelector('#bookRequestModal')
-        const requestModalBootstrap = bootstrap.Modal.getInstance(requestModal)
-        const loginToast = document.querySelector('#loginToast')
-        const loginToastBootstrap = bootstrap.Toast.getOrCreateInstance(loginToast)
-        const formValidationToast = document.querySelector('#formValidationToast')
-        const formValidationToastBootstrap = bootstrap.Toast.getOrCreateInstance(formValidationToast)
-        const successToast = document.querySelector('#successToast')
-        const successToastBootstrap = bootstrap.Toast.getOrCreateInstance(successToast)
-       
-        if (res.status == 201){
-            successToastBootstrap.show()
-            document.getElementById("request-form").reset()
-            requestModalBootstrap.hide()
-        } else if (res.status == 401){
-            loginToastBootstrap.show()
-        } else if (res.status == 400){
-            formValidationToastBootstrap.show()
-        }
-    })
-}
-
-async function getBookRequests(){
-    return fetch('get-book-requests/').then((res) => res.json())
-}
-
-async function refreshBookRequest(){
-    const bookRequests = await getBookRequests()
-}
