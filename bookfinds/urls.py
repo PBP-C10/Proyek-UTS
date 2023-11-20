@@ -8,4 +8,6 @@ urlpatterns = [
     path('get-books/', get_books, name='get_books'),
     path('detail/<int:id>', show_book_details, name='detail'),
     path('request-book/', request_book, name='request_book'),
+    path('get-book-requests/', get_book_request, name='get_book_requests'),
+    path('delete-book-request/<int:id>/', delete_book_request, name='delete_book_request'),
 ]

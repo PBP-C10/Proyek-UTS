@@ -2,139 +2,26 @@
 {% load static %}
 
 {% block content %}
-<div class="container-fluid d-flex" style="margin-top: 90px;">
-    <div class="container w-25">
+<div class="container-fluid d-flex" style="margin-top: 90px; margin-bottom: 10px;">
+    <div class="container w-25 d-none d-lg-flex flex-column">
         <h4>Filter</h4>
-        <div class="container py-2 border rounded shadow-sm">
-            <div class="d-flex flex-row justify-content-between align-items-center">
-                <h5 class="my-auto">Category</h5>
-                <button class="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseExample">
-                    <i class="bi bi-caret-down-fill" ></i>
-                </button>
-            </div>
-            <div class="collapse" id="collapseCategory">
-                <div class="container my-2" id="categoryContainer">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxAdvStories" value="Adventure stories" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Adventure Stories
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxArt" value="Art" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Art
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxComics" value="Comics & Graphic Novels" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Comics & Graphic Novels
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxDetective" value="Detective and mystery stories" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Detective and Mystery Stories
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxDrama" value="Drama" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Drama
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxFantasy" value="Fantasy fiction" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Fantasy Fiction
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxHistory" value="History" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            History
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxJuvenile" value="Juvenile Fiction" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Juvenile Fiction
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkboxScience" value="Science fiction" onchange=searchBookByCategory(this)>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Science Fiction
-                        </label>
-                    </div>
-                    
-                </div>
-            </div>
-            <hr class="hr m-1">
-            <div class="d-flex flex-row justify-content-between align-items-center">
-                <h5 class="my-auto">Price</h5>
-                <button class="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="false" aria-controls="collapseExample">
-                    <i class="bi bi-caret-down-fill" ></i>
-                </button>
-            </div>  
-            <div class="collapse" id="collapsePrice">
-                <div class="container my-2" id="priceContainer">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Rp</span>
-                        <input type="number" class="form-control" placeholder="Min Price" oninput=filterHarga() id="minPriceBox" min="0" max="500000">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Rp</span>
-                        <input type="number" class="form-control" placeholder="Max Price" oninput=filterHarga() id="maxPriceBox" min="0" max="500000">
-                    </div>
-                </div>
-            </div>
-            <hr class="hr m-1">
-            <div class="d-flex flex-row justify-content-between align-items-center">
-                <h5 class="my-auto">Rating</h5>
-                <button class="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRating" aria-expanded="false" aria-controls="collapseExample">
-                    <i class="bi bi-caret-down-fill" ></i>
-                </button>
-            </div> 
-            <div class="collapse" id="collapseRating">
-                <div class="container my-2 d-flex flex-column" id="ratingContainer">
-
-                    <input type="radio" class="btn-check" name="options" id="star2" autocomplete="off" onchange=filterRating(this) value="4">
-                    <label class="btn" for="star2">
-                        <i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i class="bi bi-star"></i> and up
-                    </label>
-
-                    <input type="radio" class="btn-check" name="options" id="star3" autocomplete="off" onchange=filterRating(this) value="3">
-                    <label class="btn" for="star3">
-                        <i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> and up
-                    </label>
-
-                    <input type="radio" class="btn-check" name="options" id="star4" autocomplete="off" onchange=filterRating(this) value="2">
-                    <label class="btn" for="star4">
-                        <i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> and up
-                    </label>
-
-                    <input type="radio" class="btn-check" name="options" id="star5" autocomplete="off" onchange=filterRating(this) value="1">
-                    <label class="btn" for="star5">
-                        <i class="bi bi-star-fill"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> and up
-                    </label>
-
-                    <input type="radio" class="btn-check" name="options" id="clearRating" autocomplete="off" onchange=filterRating(this) value="0">
-                    <label class="btn" for="clearRating">
-                        No Filter
-                    </label>
-                </div>
-            </div>
+        <div class="container py-2 border rounded shadow-sm" id="filterContainer">
+            
         </div>
     </div>
 
-    <div class="container w-75">
-        <form class="d-flex rounded border">
-            <input class="form-control" type="text" placeholder="Search Books and Authors" aria-label="Search" id="search" oninput=searchBook()>
+    <div class="container-fluid">
+        <form>
+            <input class="form-control mb-2" type="text" placeholder="Search Books and Authors" aria-label="Search" id="search" oninput=searchBook()>
         </form>
 
-        <div id="book_cards" class="container my-3 w-100">
+        <div class="text-center d-grid d-lg-none">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas">
+                Filter
+            </button>
+        </div>
+
+        <div id="book_cards" class="container-fluid my-3">
 
         </div>
         <nav>
@@ -144,25 +31,36 @@
         </nav>
     </div>
 
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="filterOffcanvasLabelLabel">Filter</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body" id="offcanvasRating">
+            
+        </div>
+    </div>
+
     <div class="modal fade" id="bookRequestModal" tabindex="-1" aria-labelledby="bookRequestModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="bookRequestModalLabel">Request New Book</h1>
+                    <button type="button" class="btn ms-auto" data-bs-target="#myBookRequestModal" data-bs-toggle="modal" onclick=refreshBookRequest()>View My Book Requests</button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="request-form" onsubmit="return false">
+                    <form id="request-form" onsubmit="return false" class="row">
                         {% csrf_token %}
-                        <div class="mb-3">
+                        <div class="form-group mb-3">
                             <label for="title" class="col-form-label">Title:</label>
                             <input type="text" class="form-control" id="title" name="title" required></input>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group mb-3">
                             <label for="author" class="col-form-label">Author:</label>
                             <input type="text" class="form-control" id="author" name="author" required></input>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group mb-3">
                             <label for="category" class="col-form-label">Category:</label>
                             <select class="form-select" id="category" name="category" required>
                                 <option disabled selected hidden>Choose Category...</option>
@@ -177,28 +75,73 @@
                                 <option value="Science fiction">Science Fiction</option>
                               </select>
                         </div>
-                        <div class="mb-3 d-none">
+                        <div class="form-group mb-3 d-none">
                             <input type="hidden" class="form-control" id="status" name="status" value="REQ" required></input>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="button_request" onclick="requestBook()">Request New Book</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="button_request" onclick="requestBook()">Request New Book</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="modal fade" id="myBookRequestModal" tabindex="-1" aria-labelledby="bookRequestModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="myBookRequestModalLabel">My Book Requests</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="myBookRequestModalBody">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" data-bs-target="#bookRequestModal" data-bs-toggle="modal">Back to Request Book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="loginToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
           <div class="toast-header">
-            <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" class="rounded me-2" alt="..." loading="lazy">
-            <strong class="me-auto">LiteraTour</strong>
+            <i class="bi bi-exclamation-triangle"></i>
+            <strong class="me-auto">&nbsp;LiteraTour</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
           <div class="toast-body">
             You must login to submit a book request!
+          </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="formValidationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <i class="bi bi-exclamation-triangle"></i>
+            <strong class="me-auto">&nbsp;LiteraTour</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            You submitted an Invalid Form!
+          </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <i class="bi bi-check-square"></i>
+            <strong class="me-auto">&nbsp;LiteraTour</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            You have successfully requested a book!
           </div>
         </div>
     </div>
@@ -210,7 +153,7 @@
         </button>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="/static/css/bookfinds.css"/>
-<script type="text/javascript" src="/static/js/bookfinds.js"></script>
+<link rel="stylesheet" type="text/css" href='{% static "/css/bookfinds.css" %}'/>
+<script type="text/javascript" src='{% static "/js/bookfinds.js" %}'></script>
 
 {% endblock content %}

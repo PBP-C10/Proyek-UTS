@@ -1,11 +1,10 @@
 from django.shortcuts import render
-from bookfinds.models import Book
+from bookfinds.models import Book, BookRequest
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, Http404
 from django.core.paginator import Paginator
 from django.db.models import Q
 from bookfinds.forms import BookRequestForm
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def show_main(request):
@@ -88,3 +87,15 @@ def request_book(request):
         return HttpResponseBadRequest()
     else:
         return HttpResponse('Unauthorized', status=401)
+    
+def get_book_request(request):
+    book_requests = BookRequest.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', book_requests))
+
+
+def delete_book_request(request, id):
+    book_request = BookRequest.objects.filter(user=request.user, id=id)
+    if book_request:
+        book_request.delete()
+        return HttpResponse(b'DELETED', 200)
+    return Http404()

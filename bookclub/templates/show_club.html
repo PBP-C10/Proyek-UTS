@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block content %}
-<body>
 <div style="margin-top: 90px;">
     <div style="margin: 20px">
         <div class="row">
@@ -92,6 +91,8 @@
 
     <div class="row">
         <div id="book_card" data-id="{{ club.pk }}">
+
+        </div>
     </div>
 
     <br>
@@ -162,9 +163,8 @@
         </div>
     </div>
 </div>
-</body>
 
-<script type="text/javascript" src="/static/js/show_club.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/css/bookclub.css">
+<script type="text/javascript" src='{% static "/js/show_club.js" %}'></script>
+<link rel="stylesheet" type="text/css" href='{% static "/css/bookclub.css" %}'>
 
 {% endblock %}

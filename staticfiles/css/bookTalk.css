@@ -1,0 +1,29 @@
+.container {
+    width: 100%;
+    max-width: 100%; /* Ensures the container does not exceed the viewport width */
+}
+
+.card {
+    width: 100%;
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}
+
+.card-header {
+    cursor: pointer; /* Add pointer cursor to indicate clickable element */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Style lain sesuai kebutuhan Anda */
+.card:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.text-truncate-2 {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
