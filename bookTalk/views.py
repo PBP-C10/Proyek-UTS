@@ -169,12 +169,12 @@ def book_list(request, book_id):
             'book': book,
             'reviews': reviews
         }
-        return render(request, 'booklist.html', context)
+        return render(request, 'bookList.html', context)
     else:
         # Tampilkan pesan jika tidak ada review ditemukan
         context = {
             'book': book,
             'message': 'Review not found'
         }
-        return render(request, 'booklist.html', context)
+        return render(request, 'bookList.html', context)
     
