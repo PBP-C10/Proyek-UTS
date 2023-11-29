@@ -10,4 +10,5 @@ urlpatterns = [
     path('request-book/', request_book, name='request_book'),
     path('get-book-requests/', get_book_request, name='get_book_requests'),
     path('delete-book-request/<int:id>/', delete_book_request, name='delete_book_request'),
+    path('get-books-flutter/', get_books_flutter, name='get_books_flutter')
 ]
