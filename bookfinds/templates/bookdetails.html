@@ -19,7 +19,7 @@
             <br>
             
             <div class="container d-grid gap-2">
-                <button class="btn btn-primary" role="button">Add to Cart</button>
+                <a class="btn btn-primary" href="{% url 'BookShop:add_books_to_cart' book.id %}" role="button">Add to Cart</a>
                 <button class="btn btn-primary" role="button">Add to Wishlist</button>
                 <button class="btn btn-primary" role="button">Reviews</button>
             </div>
