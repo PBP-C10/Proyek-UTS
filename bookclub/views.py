@@ -247,10 +247,7 @@ def add_rec_book_flutter(request, club_id):
         recommended_books = request.POST.get("recommended_books")
         int(recommended_books)
 
-        print("masuk")
-
         club.recommended_books.add(recommended_books)
-        print(club.recommended_books)
 
         return JsonResponse({"status" : "success"})
     
