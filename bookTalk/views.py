@@ -17,24 +17,24 @@ from .forms import ReviewForm
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-# #Create your views here
-# def buku_detail(request, book_id):
-#     book = Book.objects.get(pk=book_id)
-#     review = Review.objects.filter(book=book)
+#Create your views here
+def buku_detail(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    review = Review.objects.filter(book=book)
 
-#     if request.method == 'POST':
-#         form = ReviewForm(request.POST)
-#         if form.is_valid():
-#             ulasan = form.save(commit=False)
-#             ulasan.user = request.user
-#             ulasan.book = book
-#             ulasan.save()
-#             return redirect('buku_detail', book_id=book_id)
-#     else:
-#         form = ReviewForm()
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            ulasan = form.save(commit=False)
+            ulasan.user = request.user
+            ulasan.book = book
+            ulasan.save()
+            return redirect('buku_detail', book_id=book_id)
+    else:
+        form = ReviewForm()
 
-#     context = {'book': book, 'review': review, 'form': form}
-#     return render(request, 'ulasan.html', context)
+    context = {'book': book, 'review': review, 'form': form}
+    return render(request, 'ulasan.html', context)
 
 
 # Create your views here.
@@ -53,10 +53,10 @@ def create_review(request):
 
     if form.is_valid() and request.method == 'POST':
         form.save()
-        return HttpResponseRedirect(reverse('book-talk:show_main'))\
+        return HttpResponse(b"Created", status=201)
         
-    context = {'form': form}
-    return render(request, 'create_review.html', context)
+    # context = {'form': form}
+    return HttpResponseNotFound()
 
 def create_review_ajax (request):
     if request.method == 'POST':
@@ -77,7 +77,7 @@ def post_review(request, book_id):
 
         return HttpResponse("CREATED", 201)
 
-    return HttpResponseNotFound
+    return HttpResponseNotFound()
     
 def get_books(request):
     books = Book.objects.all()
@@ -178,3 +178,18 @@ def book_list(request, book_id):
         }
         return render(request, 'bookList.html', context)
     
+# @csrf_exempt
+# def post_review(request, book_id):
+#     form = ReviewForm(request.POST or None)
+#     book = Book.objects.get(pk=book_id)
+#     # form.book = book
+
+#     if form.is_valid() and request.method == 'POST':
+#         review = form.save(commit=False)
+#         review.reviewer_user = request.user
+#         review.book = book
+#         review.save()
+#         return HttpResponse(b"Created", status=201)
+    
+#     # context = {'form': form}
+#     return HttpResponseNotFound()
