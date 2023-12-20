@@ -102,6 +102,22 @@ def add_book_to_cart(request):
             return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=400)
+    
+def book_in_cart(request):
+    if request.method == 'GET':
+        data = json.loads(request.body)
+        cart = Cart.objects.get(user=request.user)
+        book = Book.objects.get(id=data["book_id"])
+
+        if cart:
+            if book in cart.books.all():
+                return JsonResponse({"status": "true"}, status=200)
+            else:
+                return JsonResponse({"status": "false"}, status=200)
+        else:
+            return JsonResponse({"status": "false"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=400)
 
 def create_order(request):
     if request.method == 'POST':
