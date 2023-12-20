@@ -135,3 +135,10 @@ def remove_book(request, book_id):
             cart.save()
 
     return redirect('BookShop:shopping_main')
+
+
+def show_json(request):
+    data = Cart.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+

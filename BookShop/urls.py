@@ -1,5 +1,5 @@
 from django.urls import path
-from BookShop.views import shopping_main, add_books_to_cart, create_order,submit_order,remove_book,filter_books
+from BookShop.views import shopping_main, add_books_to_cart, create_order,submit_order,remove_book,filter_books,show_json
 
 
 app_name = 'BookShop'
@@ -11,4 +11,5 @@ urlpatterns = [
     path('submit-order/', submit_order, name='submit_order'),
     path('remove_book/<int:book_id>/', remove_book, name='remove_book'),
     path('shopping-main/filter-books', filter_books, name='filter_books'),
+    path('json/', show_json, name='show_json'), 
 ]
