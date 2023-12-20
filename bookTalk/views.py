@@ -378,6 +378,4 @@ def get_review_flutter(request, book_id):
         review_dict = json.loads(review_serialized)[0]
 
         review_data.append(review_dict)
-
-        # Return a JSON response with the list of modified club data
     return JsonResponse({'clubs': review_data})

@@ -15,6 +15,4 @@ urlpatterns = [
     path('book/<int:book_id>/post-review/', post_review, name='post_review'),
     path('book/<int:book_id>/create-review-flutter/', create_review_flutter, name='create_review_flutter'),
     path('book/<int:book_id>/get-review-flutter/', get_review_flutter, name='get_review_flutter'),
-
-
 ]
