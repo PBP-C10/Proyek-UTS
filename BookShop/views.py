@@ -1,10 +1,11 @@
-from django.shortcuts import get_object_or_404, render, redirect
+import json
+from django.shortcuts import render, redirect
 from BookShop.forms import OrderForm
 from BookShop.models import Cart, Order
 from bookfinds.models import Book
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse,HttpResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, Http404
 from django.db.models import Q
 from django.core import serializers
 from django.core.paginator import Paginator
@@ -116,6 +117,47 @@ def add_books_to_cart(request, book_id):
 
     return HttpResponse(b'OK', 200)
 
+
+def add_book_to_cart(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        cart = Cart.objects.get(user=request.user)
+        book = Book.objects.get(id=data["book_id"])
+        if cart:
+            if book not in cart.books.all():
+                cart.books.add(book)
+                cart.total_price += book.price
+                cart.save()
+                return JsonResponse({"status": "success"}, status=200)
+            else:
+                return JsonResponse({"status": "fail", "message": "Buku sudah ada di cart"}, status=400)
+        else:
+            cart = Cart.objects.create(
+                user = request.user,
+                total_price = book.price,
+            )
+            cart.books.add(book)
+            cart.save()
+            return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=400)
+    
+def book_in_cart(request):
+    if request.method == 'GET':
+        data = json.loads(request.body)
+        cart = Cart.objects.get(user=request.user)
+        book = Book.objects.get(id=data["book_id"])
+
+        if cart:
+            if book in cart.books.all():
+                return JsonResponse({"status": "true"}, status=200)
+            else:
+                return JsonResponse({"status": "false"}, status=200)
+        else:
+            return JsonResponse({"status": "false"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=400)
 
 def create_order(request):
     if request.method == 'POST':

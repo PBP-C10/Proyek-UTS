@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="mb-3" style="font-size: medium;">
-                            <input required type="hidden" class="form-control" id="book" name="book" value=""></input>
+                            <input required type="hidden" class="form-control" id="book_id" name="book_id" value="{{ book.id }}"></input>
                         </div>
                         
                         <div class="mb-3" style="font-size: medium;">
@@ -75,10 +75,6 @@
     </div>
     
 
-    <!-- Add Review Button -->
-    <!-- <div class="mt-4">
-        <a href="{% url 'book-talk:create_review' %}" class="btn btn-primary">Add Review</a>
-    </div> -->
 
     <div class="text-center mt-3">
         <button id="createReviewModalButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#createReviewModal">Create a Review</button>
