@@ -277,6 +277,7 @@ def create_review_ajax(request):
     return HttpResponseNotFound()
 
 # Post a review for a book
+@csrf_exempt
 def post_review(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     if request.method == 'POST':
@@ -352,6 +353,7 @@ def book_list(request, book_id):
         context = {'book': book, 'message': 'Review not found'}
         return render(request, 'bookList.html', context)
 
+@csrf_exempt
 def create_review_flutter(request):
     if request.method == 'POST':
         user = request.user
@@ -378,4 +380,4 @@ def get_review_flutter(request, book_id):
         review_data.append(review_dict)
 
         # Return a JSON response with the list of modified club data
-    return JsonResponse({'clubs': club_data})
+    return JsonResponse({'clubs': review_data})
