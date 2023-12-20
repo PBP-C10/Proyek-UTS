@@ -369,11 +369,12 @@ def create_review_flutter(request):
     
     return JsonResponse({"status" : "failed"}) 
 
-def get_review_flutter(request, book_id):
+def get_review_flutter(request):
     reviews = Review.objects.all()
     review_data = []
 
     for review in reviews:
+        
         review_serialized = serializers.serialize('json', [review, ])
         review_dict = json.loads(review_serialized)[0]
 
