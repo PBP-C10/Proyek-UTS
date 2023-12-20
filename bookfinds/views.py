@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from bookfinds.models import Book, BookRequest
 from django.core import serializers
@@ -5,6 +6,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, Http
 from django.core.paginator import Paginator
 from django.db.models import Q
 from bookfinds.forms import BookRequestForm
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def show_main(request):
@@ -80,6 +82,7 @@ def show_book_details(request, id):
     }
     return render(request, 'bookdetails.html', context)
 
+@csrf_exempt
 def request_book(request):
     if request.user.is_authenticated:
         form = BookRequestForm(request.POST or None)
@@ -89,6 +92,31 @@ def request_book(request):
             book_request.save()
             return HttpResponse(b"CREATED", status=201)
         return HttpResponseBadRequest()
+    else:
+        return HttpResponse('Unauthorized', status=401)
+    
+@csrf_exempt
+def request_book_flutter(request):
+    if request.user.is_authenticated:
+        data = json.loads(request.body)
+
+        new_book_request = BookRequest.objects.create(
+            user = request.user,
+            title = data["title"],
+            author = data["author"],
+            category = data["category"],
+            status = "REQ",
+        )
+
+        new_book_request.save()
+
+        return JsonResponse(
+            {
+                "status": "success", 
+                "message": "Successfully requested a new book",
+            },
+            status=200
+        )
     else:
         return HttpResponse('Unauthorized', status=401)
     
