@@ -5,6 +5,11 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
+def get_profile(request):
+    if request.method == 'GET':
+        profile = Profile.objects.get(request.user)
+        return HttpResponse(serializers.serialize("json", profile))
+
 def has_profile(request):
     if request.method == 'GET':
         profile = Profile.objects.get(request.user)
