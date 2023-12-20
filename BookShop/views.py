@@ -100,10 +100,7 @@ def get_carts_flutter(request):
     # This line should not be reached if the user is anonymous
     return JsonResponse({"status": "error"}, status=401)
 
-    
-
-
-
+@csrf_exempt
 def add_books_to_cart(request, book_id):
     if request.method == 'GET':
         book = Book.objects.get(pk=book_id)
@@ -118,6 +115,7 @@ def add_books_to_cart(request, book_id):
     return HttpResponse(b'OK', 200)
 
 
+@csrf_exempt
 def add_book_to_cart(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -159,6 +157,7 @@ def book_in_cart(request):
     else:
         return JsonResponse({"status": "error"}, status=400)
 
+@csrf_exempt
 def create_order(request):
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
@@ -193,7 +192,7 @@ def create_order(request):
 
         return render(request, "create_order.html", {'order_form': order_form, 'total_price': total_price})
     
-
+@csrf_exempt
 def create_order_flutter(request):
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
