@@ -26,5 +26,4 @@ urlpatterns = [
     path('book-talk/', include('bookTalk.urls')),
     path('BookShop/', include('BookShop.urls')),
     path('auth/', include('authentication.urls')),
-    path('userprofile', include('user-profile.urls')),
 ]
