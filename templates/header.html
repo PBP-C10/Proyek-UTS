@@ -50,12 +50,20 @@
                             My Library
                         </a>
                     </li>
-
+                    
+                    {% if user.is_authenticated %}
                     <li class="nav-item d-lg-none">
                         <a class="nav-link bg-danger rounded text-white m-2" aria-current="page" href="{% url 'signInSignUp:logout' %}">
                             Logout
                         </a>
                     </li>
+                    {% elif not user.is_authenticated %}
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link bg-success rounded text-white m-2" aria-current="page" href="{% url 'signInSignUp:login' %}">
+                            Login
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
 
                 <ul class="container navbar-nav d-none d-lg-flex flex-row">
