@@ -74,7 +74,7 @@ def add_books_to_cart(request, book_id):
             cart.total_price += book.price
             cart.save()
 
-    return redirect('BookShop:shopping_main')
+    return HttpResponse(b'OK', 200)
 
 
 def create_order(request):

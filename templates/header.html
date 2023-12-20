@@ -1,5 +1,4 @@
-<header>
-    <!-- margin 90px after navbar -->
+<header style="margin-bottom: 90px;">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light rounded bg-light">
         <a class="navbar-brand m-2" href="{% url 'bookfinds:show_main' %}">
             <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" loading="lazy" width="30" height="30" alt=""> LiteraTour
@@ -34,6 +33,12 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" id="booktalk-nav" aria-current="page" href="{% url 'BookShop:shopping_main' %}">
+                            My Cart
+                        </a>
+                    </li>
+
                     <li class="nav-item d-lg-none">
                         <a class="nav-link" aria-current="page" href="#">
                             Profile
@@ -45,17 +50,28 @@
                             My Library
                         </a>
                     </li>
-
+                    
+                    {% if user.is_authenticated %}
                     <li class="nav-item d-lg-none">
                         <a class="nav-link bg-danger rounded text-white m-2" aria-current="page" href="{% url 'signInSignUp:logout' %}">
                             Logout
                         </a>
                     </li>
+                    {% elif not user.is_authenticated %}
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link bg-success rounded text-white m-2" aria-current="page" href="{% url 'signInSignUp:login' %}">
+                            Login
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
 
-                <ul class="container navbar-nav d-none d-lg-flex">
+                <ul class="container navbar-nav d-none d-lg-flex flex-row">
                     {% if user.is_authenticated %}
-                    <li class="nav-item dropdown text-white ms-auto">
+                    <a class="nav-link ms-auto" href="{% url 'BookShop:shopping_main' %}">
+                        <i class="bi bi-cart"></i>
+                    </a>
+                    <li class="nav-item dropdown text-white">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle"></i> {{user}}
                         </a>

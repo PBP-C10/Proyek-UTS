@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-fluid d-flexjustify-content-center" style="margin-top:90px">
+<div class="container-fluid d-flexjustify-content-center">
     <div class="container d-flex bg-light mb-5 flex-column">
         <div class="justify-content-center mt-3 mb-5 mx-2 text-center">
             <img src='{{ book.thumbnail }}' class="img-thumbnail" loading="lazy" style="height: 500px;">
@@ -19,11 +19,13 @@
             <br>
             
             <div class="container d-grid gap-2">
+                {% if user.is_authenticated %}
                 <a class="btn btn-primary" href="{% url 'BookShop:add_books_to_cart' book.id %}" role="button">Add to Cart</a>
                 <button class="btn btn-primary" role="button">Add to Wishlist</button>
-                <button class="btn btn-primary" role="button">Reviews</button>
+                {% endif %} 
+                <a class="btn btn-primary" href="{% url 'book-talk:book_list' book.id %}" role="button">Reviews</a>
             </div>
-
+            
             <br>
 
             <div class="container">

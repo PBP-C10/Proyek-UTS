@@ -67,6 +67,10 @@ def get_books(request):
     }
     return JsonResponse(data)
 
+def get_books_flutter(request):
+    books = Book.objects.all()
+    return HttpResponse(serializers.serialize("json", books))
+
 def show_book_details(request, id):
     book = Book.objects.get(pk=id)
     price = str(book.price // 1000) + "." + str(book.price % 1000) 
