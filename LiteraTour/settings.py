@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'BookShop',
     'authentication',
     'corsheaders',
-    'user-profile',
 ]
 
 MIDDLEWARE = [
